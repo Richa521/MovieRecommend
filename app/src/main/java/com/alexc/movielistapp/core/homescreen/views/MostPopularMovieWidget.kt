@@ -27,35 +27,33 @@ fun MostPopularMoviesWidget(
     val movieList by remember { viewModel.mostPopularMoviesList }
     val isLoading by remember { viewModel.mostPopularIsLoading }
 
-    Surface(
+    Column(
         modifier = Modifier
             .padding(start = 10.dp, end = 0.dp)
     ) {
-        Column {
-            Text(
-                "Most popular",
-                fontSize = 23.sp,
-                color = MaterialTheme.colors.primary,
-                fontFamily = OpenSans,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(start = 7.dp)
-            )
+        Text(
+            "Most popular",
+            fontSize = 23.sp,
+            color = MaterialTheme.colors.primary,
+            fontFamily = OpenSans,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.padding(start = 7.dp)
+        )
 
-            Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
-            LazyRow {
-                items(movieList.size) {
-                    MovieCard(movie = movieList[it], navController = navController)
-                }
+        LazyRow {
+            items(movieList.size) {
+                MovieCard(movie = movieList[it], navController = navController)
             }
+        }
 
-            Box(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier.fillMaxSize()
-            ) {
-                if(isLoading) {
-                    CircularProgressIndicator(color = MaterialTheme.colors.primary)
-                }
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if (isLoading) {
+                CircularProgressIndicator(color = MaterialTheme.colors.primary)
             }
         }
     }

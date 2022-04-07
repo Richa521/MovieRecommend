@@ -1,8 +1,6 @@
 package com.alexc.movielistapp.core.homescreen
 
-import android.graphics.Movie
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexc.movielistapp.common.Resource

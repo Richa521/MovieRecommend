@@ -28,7 +28,9 @@ fun MovieCard(
         modifier = modifier
             .width(150.dp)
             .clickable {
-                // TODO onClick
+                navController.navigate(
+                    "movie_details_screen/${movie.id}"
+                )
             }
             .padding(10.dp),
     ) {
