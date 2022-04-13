@@ -102,7 +102,9 @@ fun CategoriesWidget(
 
 @Composable
 fun CategoryItem(category: CategoryListItem, navController: NavController) {
+
     val width = (LocalConfiguration.current.screenWidthDp.dp / 2) - 10.dp
+
     Box(
         modifier = Modifier
             .width(width)

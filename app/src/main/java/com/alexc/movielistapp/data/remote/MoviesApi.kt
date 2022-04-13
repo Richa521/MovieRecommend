@@ -5,6 +5,7 @@ import com.alexc.movielistapp.data.models.MovieItem
 import com.alexc.movielistapp.data.utils.ApiConstants
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface MoviesApi {
 
@@ -18,4 +19,10 @@ interface MoviesApi {
     suspend fun getMovieDetails(
         @Path("movieId") movieId: String
     ): MovieItem
+
+    @GET(ApiConstants.API_GET_MOVIES_BY_CATEGORIES_ROUTE)
+    suspend fun getMovieByCategory(
+        @Query("title_type") type: String = "feature",
+        @Query("genres") category: String
+    ): RequestItemsList
 }

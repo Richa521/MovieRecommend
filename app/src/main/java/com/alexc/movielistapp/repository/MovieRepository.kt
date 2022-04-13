@@ -43,4 +43,15 @@ class MovieRepository @Inject constructor(
 
         return Resource.Success(response)
     }
+
+    suspend fun getMoviesByCategory(category: String): Resource<List<MovieListItem>> {
+        val response = try {
+            api.getMovieByCategory(category = category)
+        } catch (e: Exception) {
+            return Resource.Error(e.stackTraceToString())
+        }
+
+        return Resource.Success(response.results)
+    }
+
 }
