@@ -14,7 +14,7 @@ interface MoviesApi {
     @GET(ApiConstants.API_GET_COMING_SOON_ROUTE)
     suspend fun getComingSoonMovies(): RequestItemsList
 
-    @GET(ApiConstants.API_GET_MOVIE_DETAILS_ROUTE + "/{movieId}")
+    @GET(ApiConstants.API_GET_MOVIE_DETAILS_ROUTE + "{movieId}" + "/Images")
     suspend fun getMovieDetails(
         @Path("movieId") movieId: String
     ): MovieItem

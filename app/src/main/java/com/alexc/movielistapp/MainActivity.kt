@@ -11,6 +11,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.alexc.movielistapp.core.homescreen.HomeScreen
+import com.alexc.movielistapp.core.moviedetails.MovieDetailsScreen
+import com.alexc.movielistapp.core.movielist.MovieListScreen
 import com.alexc.movielistapp.repository.MovieRepository
 import com.alexc.movielistapp.ui.theme.MovieListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,6 +44,20 @@ class MainActivity : ComponentActivity() {
                         val movieId = remember {
                             it.arguments?.getString("movieId")
                         }
+
+                        MovieDetailsScreen(navController = navController, movieId = movieId ?: "")
+                    }
+
+                    composable("movie_list/{category}", arguments = listOf(
+                        navArgument("category") {
+                            type = NavType.StringType
+                        }
+                    )) {
+                        val category = remember {
+                            it.arguments?.getString("category")
+                        }
+
+                        MovieListScreen(navController = navController, category = category ?: "")
                     }
 
                     composable("search_screen") { }

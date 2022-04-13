@@ -1,6 +1,7 @@
 package com.alexc.movielistapp.core.homescreen.views
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -106,10 +107,17 @@ fun CategoryItem(category: CategoryListItem, navController: NavController) {
         modifier = Modifier
             .width(width)
             .aspectRatio(1.5f)
-            .padding(start = 5.dp, end = 5.dp, bottom = 10.dp),
+            .padding(start = 5.dp, end = 5.dp, bottom = 10.dp)
+            .clickable {
+                navController.navigate(
+                    "movie_list/${category.title.lowercase()}"
+                )
+            },
         contentAlignment = Alignment.Center,
     ) {
+
         val color = MaterialTheme.colors.primary
+
         Box(contentAlignment = Alignment.Center) {
             Image(
                 painter = rememberCoilPainter(request = category.image),
@@ -129,6 +137,7 @@ fun CategoryItem(category: CategoryListItem, navController: NavController) {
                     },
                 contentScale = ContentScale.Crop,
             )
+
             Text(
                 category.title,
                 fontSize = 23.sp,

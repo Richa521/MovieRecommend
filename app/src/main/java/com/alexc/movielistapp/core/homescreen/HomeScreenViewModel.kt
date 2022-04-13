@@ -36,14 +36,15 @@ class HomeScreenViewModel @Inject constructor(
                     mostPopularMoviesList.value = result.data!!
                     if(result.data!!.isEmpty()){
                         val list = arrayListOf<MovieListItem>()
-                        list.add(MovieListItem(id = "2123", title = "Batman", fullTitle = "Batman", image = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQt8yNufq2Jp9-D4BrCYYW5Y_jm8HXRE6NDczXQbTjV-5DMBS4o"))
-                        list.add(MovieListItem(id = "123", title = "Spider-Man: No way home", fullTitle = "Spider-Man: No way home", image = "https://sportshub.cbsistatic.com/i/2022/01/21/6c422820-0c68-41e2-8496-ccc76599f26a/spider-man-no-way-home-multiverse-poster.jpg?auto=webp&width=928&height=1374&crop=0.675:1,smart"))
-                        list.add(MovieListItem(id = "323", title = "Dune", fullTitle = "Dune", image = "https://mb.web.sapo.io/94689138819576d05725aea934e3421eb30cd805.jpg"))
+                        // FIXME
+                        list.add(MovieListItem(id = "tt1877830", title = "Batman", fullTitle = "Batman", image = "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQt8yNufq2Jp9-D4BrCYYW5Y_jm8HXRE6NDczXQbTjV-5DMBS4o"))
+                        list.add(MovieListItem(id = "tt10872600", title = "Spider-Man: No way home", fullTitle = "Spider-Man: No way home", image = "https://sportshub.cbsistatic.com/i/2022/01/21/6c422820-0c68-41e2-8496-ccc76599f26a/spider-man-no-way-home-multiverse-poster.jpg?auto=webp&width=928&height=1374&crop=0.675:1,smart"))
+                        list.add(MovieListItem(id = "tt0087182", title = "Dune", fullTitle = "Dune", image = "https://mb.web.sapo.io/94689138819576d05725aea934e3421eb30cd805.jpg"))
 
                         mostPopularMoviesList.value = list
                     }
 
-                    mostPopularIsError.value = true
+                    mostPopularIsError.value = false
                 }
                 is Resource.Error -> {
                     mostPopularIsError.value = true

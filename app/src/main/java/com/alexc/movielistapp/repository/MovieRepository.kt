@@ -35,9 +35,10 @@ class MovieRepository @Inject constructor(
 
     suspend fun getMovieDetails(movieId: String): Resource<MovieItem> {
         val response = try {
-            api.getMovieDetails(movieId)
+            //api.getMovieDetails(movieId)
+            MovieItem()
         } catch (e: Exception) {
-            return Resource.Error("An error occurred while obtaining movie details")
+            return Resource.Error(e.stackTraceToString())
         }
 
         return Resource.Success(response)

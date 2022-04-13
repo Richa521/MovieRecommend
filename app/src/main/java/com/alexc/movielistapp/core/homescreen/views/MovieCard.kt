@@ -46,7 +46,7 @@ fun MovieCard(
             Spacer(modifier = Modifier.height(10.dp))
 
             Text(
-                movie.fullTitle,
+                movie.title,
                 fontFamily = OpenSans,
                 color = MaterialTheme.colors.primary,
                 textAlign = TextAlign.Center
