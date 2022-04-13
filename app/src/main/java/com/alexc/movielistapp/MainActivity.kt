@@ -13,6 +13,7 @@ import androidx.navigation.navArgument
 import com.alexc.movielistapp.core.homescreen.HomeScreen
 import com.alexc.movielistapp.core.moviedetails.MovieDetailsScreen
 import com.alexc.movielistapp.core.movielist.MovieListScreen
+import com.alexc.movielistapp.core.search.SearchScreen
 import com.alexc.movielistapp.repository.MovieRepository
 import com.alexc.movielistapp.ui.theme.MovieListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,7 +61,9 @@ class MainActivity : ComponentActivity() {
                         MovieListScreen(navController = navController, category = category ?: "")
                     }
 
-                    composable("search_screen") { }
+                    composable("search_screen") {
+                        SearchScreen(navController = navController)
+                    }
 
                     composable("favourites_screen") { }
 

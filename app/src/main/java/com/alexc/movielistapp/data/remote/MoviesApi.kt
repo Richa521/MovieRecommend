@@ -25,4 +25,9 @@ interface MoviesApi {
         @Query("title_type") type: String = "feature",
         @Query("genres") category: String
     ): RequestItemsList
+
+    @GET(ApiConstants.API_GET_MOVIES_BY_SEARCH + "{searchTerm}")
+    suspend fun getMovieBySearch(
+        @Path("searchTerm") searchTerm: String
+    ): RequestItemsList
 }

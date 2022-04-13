@@ -53,4 +53,13 @@ class MovieRepository @Inject constructor(
         return Resource.Success(response.results)
     }
 
+    suspend fun getMoviesBySearch(searchTerm: String): Resource<List<MovieListItem>> {
+        val response = try {
+            api.getMovieBySearch(searchTerm = searchTerm)
+        } catch (e: Exception) {
+            return Resource.Error(e.stackTraceToString())
+        }
+
+        return Resource.Success(response.results)
+    }
 }

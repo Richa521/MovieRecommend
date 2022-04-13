@@ -9,4 +9,6 @@ object ApiConstants {
     const val API_GET_COMING_SOON_ROUTE = "ComingSoon/$API_KEY/"
     const val API_GET_MOVIE_DETAILS_ROUTE = "Title/$API_KEY/"
     const val API_GET_MOVIES_BY_CATEGORIES_ROUTE = "AdvancedSearch/$API_KEY"
+    const val API_GET_MOVIES_BY_SEARCH = "SearchTitle/$API_KEY/"
+
 }
