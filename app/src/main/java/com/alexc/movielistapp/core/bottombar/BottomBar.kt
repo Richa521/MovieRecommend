@@ -1,9 +1,13 @@
 package com.alexc.movielistapp.core.bottombar
 
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -14,7 +18,6 @@ fun BottomBar(navController: NavController) {
     val screens = listOf(
         BottomBarItem.Home,
         BottomBarItem.Search,
-        BottomBarItem.Favourites,
         BottomBarItem.Settings
     )
 
@@ -39,18 +42,19 @@ fun RowScope.AddItem(
     navController: NavController
 ) {
     BottomNavigationItem(
-        label =
-        {
-            Text(text = screen.title)
-        },
         icon = {
-            Icon(imageVector = screen.icon, contentDescription = "Nav icon")
+            Icon(imageVector = screen.icon, contentDescription = "Nav icon",
+            modifier = Modifier.size(30.dp))
         },
         selected = currentDest?.hierarchy?.any {
             it.route == screen.navigation
         } == true,
         onClick = {
-            navController.navigate(screen.navigation)
+            if (currentDest?.hierarchy?.any {
+                    it.route == screen.navigation
+                } != true) {
+                navController.navigate(screen.navigation)
+            }
         },
         selectedContentColor = MaterialTheme.colors.secondary,
         unselectedContentColor = MaterialTheme.colors.primary

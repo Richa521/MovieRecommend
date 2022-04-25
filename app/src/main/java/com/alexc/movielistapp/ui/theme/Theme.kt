@@ -5,10 +5,11 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.material.lightColors
 import androidx.compose.runtime.Composable
+import com.alexc.movielistapp.ThemeState
 
 private val DarkColorPalette = darkColors(
     background = BackgroundColorDark,
-    primary = PrimaryLight,
+    primary = PrimaryDark,
     secondary = SecondaryLight
 )
 
@@ -21,7 +22,7 @@ private val LightColorPalette = lightColors(
 
 @Composable
 fun MovieListAppTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val colors = if (darkTheme) {
+    val colors = if (ThemeState.isDarkMode) {
         DarkColorPalette
     } else {
         LightColorPalette
