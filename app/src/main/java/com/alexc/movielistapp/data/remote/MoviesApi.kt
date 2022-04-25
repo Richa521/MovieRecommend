@@ -12,8 +12,8 @@ interface MoviesApi {
     @GET(ApiConstants.API_GET_MOST_POPULAR_ROUTE)
     suspend fun getMostPopularMovies(): RequestItemsList
 
-    @GET(ApiConstants.API_GET_COMING_SOON_ROUTE)
-    suspend fun getComingSoonMovies(): RequestItemsList
+    @GET(ApiConstants.API_GET_IN_THEATERS_ROUTE)
+    suspend fun getInTheatersMovies(): RequestItemsList
 
     @GET(ApiConstants.API_GET_MOVIE_DETAILS_ROUTE + "{movieId}" + "/Images")
     suspend fun getMovieDetails(

@@ -70,6 +70,7 @@ fun MovieDetail(
             contentDescription = "",
             modifier = Modifier
                 .height(400.dp)
+                .fillMaxWidth()
                 .constrainAs(image) { }
                 .graphicsLayer {
                     alpha = bannerAlpha
@@ -137,6 +138,9 @@ fun MovieDetail(
             }
     )
 
+
+    // Favourites Not implemented
+    /*
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.TopEnd
@@ -153,6 +157,7 @@ fun MovieDetail(
                 }
         )
     }
+    */
 }
 
 

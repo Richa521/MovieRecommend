@@ -15,19 +15,19 @@ class MovieRepository @Inject constructor(
 
     suspend fun getMostPopularMovies(): Resource<List<MovieListItem>> {
         val response = try {
-            api.getMostPopularMovies()
-        } catch (e: Exception) {
-            return Resource.Error("An error occurred while obtaining most popular movies")
-        }
+               api.getMostPopularMovies()
+           } catch (e: Exception) {
+               return Resource.Error("An error occurred while obtaining most popular movies")
+           }
+
         return Resource.Success(response.items)
     }
 
-    suspend fun getComingSoonMovies(): Resource<List<MovieListItem>> {
+    suspend fun getInTheatersMovies(): Resource<List<MovieListItem>> {
         val response = try {
-            api.getComingSoonMovies()
+            api.getInTheatersMovies()
         } catch (e: Exception) {
-            Log.e("boas", e.toString())
-            return Resource.Error("An error occurred while obtaining coming soon movies")
+            return Resource.Error("An error occurred while obtaining in theaters movies")
         }
 
         return Resource.Success(response.items)

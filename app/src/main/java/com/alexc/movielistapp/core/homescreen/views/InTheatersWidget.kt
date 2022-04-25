@@ -1,6 +1,7 @@
 package com.alexc.movielistapp.core.homescreen.views
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
@@ -34,17 +35,17 @@ import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ComingSoonWidget(
+fun InTheatersWidget(
     navController: NavController,
     viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
-    val movieList by remember { viewModel.mostPopularMoviesList }
-    val isLoading by remember { viewModel.mostPopularIsLoading }
+    val movieList by remember { viewModel.inTheatersMovies }
+    val isLoading by remember { viewModel.inTheatersIsLoading }
 
 
     Column {
         Text(
-            "Coming Soon",
+            "In Theaters",
             fontSize = 23.sp,
             color = MaterialTheme.colors.primary,
             fontFamily = OpenSans,
@@ -87,9 +88,18 @@ fun ComingSoonWidget(
             ) {
                 // Card content
                 val movie = movieList.get(page)
-                Box {
+
+                // Get the correct image url
+                val imageSplitUrl = movie.image.split(".", limit = 4)
+                val imageUrl = movie.image.replace(imageSplitUrl[imageSplitUrl.size-1],"") + ".jpg"
+
+                Box(modifier = Modifier.clickable {
+                    navController.navigate(
+                        "movie_details_screen/${movie.id}"
+                    )
+                }) {
                     Image(
-                        painter = rememberCoilPainter(request = movie.image),
+                        painter = rememberCoilPainter(request = imageUrl),
                         contentDescription = "",
                         modifier = Modifier
                             .aspectRatio(1.5f, true)

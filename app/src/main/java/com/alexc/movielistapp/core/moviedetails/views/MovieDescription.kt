@@ -45,15 +45,17 @@ fun MovieDescription(
         textAlign = TextAlign.Center,
     )
 
-    val rating = (movieItem.imDbRating.toFloat() * 5) / 10
+    if (movieItem.imDbRating != null && movieItem.imDbRating.isNotEmpty()) {
+        val rating = (movieItem.imDbRating.toFloat() * 5) / 10
 
-    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-        RatingBar(
-            rating = rating,
-            modifier = Modifier
-                .height(20.dp)
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            RatingBar(
+                rating = rating,
+                modifier = Modifier
+                    .height(20.dp)
 
-        )
+            )
+        }
     }
 
     Text(

@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Clear
+import androidx.compose.material.icons.rounded.Create
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -95,7 +96,7 @@ fun SearchScreen(
                     state.movies.isEmpty() -> {
                         if (state.searchTerm.isEmpty()) {
                             SearchInfoView(
-                                icon = Icons.Rounded.Search,
+                                icon = Icons.Rounded.Create,
                                 message = "Try to type something"
                             )
                         } else {

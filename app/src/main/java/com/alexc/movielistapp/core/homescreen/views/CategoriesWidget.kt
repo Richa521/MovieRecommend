@@ -27,7 +27,6 @@ import com.google.accompanist.flowlayout.FlowMainAxisAlignment
 import com.google.accompanist.flowlayout.FlowRow
 import com.google.accompanist.flowlayout.SizeMode
 
-//TODO FIX
 val categoriesList = arrayListOf<CategoryListItem>().apply {
     add(
         CategoryListItem(
@@ -50,8 +49,6 @@ val categoriesList = arrayListOf<CategoryListItem>().apply {
             "https://www.ixpaper.com/wp-content/uploads/2021/07/luca-wallpaper-ixpaper-2.jpg"
         )
     )
-    // add(CategoryListItem(id = "id", "Crime", ""))
-    //add(CategoryListItem(id = "id", "Drama", ""))
     add(
         CategoryListItem(
             id = "id",
@@ -59,9 +56,6 @@ val categoriesList = arrayListOf<CategoryListItem>().apply {
             "https://cm-santiago-do-cacem.pt/img/movies/89/what-order-you-should-watch-conjuring.jpg"
         )
     )
-    // add(CategoryListItem(id = "id", "Romance", ""))
-    // add(CategoryListItem(id = "id", "Sci-Fi", ""))
-    // add(CategoryListItem(id = "id", "Thriller", ""))
 }
 
 
@@ -118,8 +112,6 @@ fun CategoryItem(category: CategoryListItem, navController: NavController) {
         contentAlignment = Alignment.Center,
     ) {
 
-        val color = MaterialTheme.colors.primary
-
         Box(contentAlignment = Alignment.Center) {
             Image(
                 painter = rememberCoilPainter(request = category.image),
@@ -128,7 +120,7 @@ fun CategoryItem(category: CategoryListItem, navController: NavController) {
                     .clip(RoundedCornerShape(10.dp))
                     .drawWithCache {
                         val gradient = Brush.verticalGradient(
-                            colors = listOf(Color.Transparent, color),
+                            colors = listOf(Color.Transparent, Color(0xFF2E3959)),
                             startY = size.height / 10,
                             endY = size.height
                         )

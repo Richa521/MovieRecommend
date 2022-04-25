@@ -41,7 +41,6 @@ fun MovieListCard(
             }
             .padding(5.dp),
     ) {
-        val color = MaterialTheme.colors.primary
         Image(
             painter = rememberCoilPainter(request = movieItem.image),
             contentDescription = movieItem.title,
@@ -50,7 +49,7 @@ fun MovieListCard(
                 .fillMaxSize()
                 .drawWithCache {
                     val gradient = Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, color),
+                        colors = listOf(Color.Transparent, Color(0xFF2E3959)),
                         startY = size.height / 10,
                         endY = size.height
                     )

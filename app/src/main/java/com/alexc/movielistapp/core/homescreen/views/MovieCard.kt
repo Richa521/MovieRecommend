@@ -34,9 +34,13 @@ fun MovieCard(
             }
             .padding(10.dp),
     ) {
+        // Get the correct image url
+        val imageSplitUrl = movie.image.split(".", limit = 4)
+        val imageUrl = movie.image.replace(imageSplitUrl[imageSplitUrl.size-1],"") + ".jpg"
+
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = rememberCoilPainter(request = movie.image),
+                painter = rememberCoilPainter(request = imageUrl),
                 contentDescription = movie.title,
                 modifier = Modifier
                     .size(200.dp)

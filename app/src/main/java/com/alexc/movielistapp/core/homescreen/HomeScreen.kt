@@ -9,7 +9,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.alexc.movielistapp.core.bottombar.BottomBar
 import com.alexc.movielistapp.core.homescreen.views.CategoriesWidget
-import com.alexc.movielistapp.core.homescreen.views.ComingSoonWidget
+import com.alexc.movielistapp.core.homescreen.views.InTheatersWidget
 import com.alexc.movielistapp.core.homescreen.views.MostPopularMoviesWidget
 
 
@@ -27,7 +27,7 @@ fun HomeScreen(navController: NavController) {
                 Spacer(modifier = Modifier.height(20.dp))
             }
             item {
-                ComingSoonWidget(navController)
+                InTheatersWidget(navController)
             }
 
             item {

@@ -16,8 +16,6 @@ import androidx.navigation.NavController
 import com.alexc.movielistapp.core.homescreen.views.MovieCard
 import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.data.models.SimilarMovieItem
-import com.alexc.movielistapp.data.models.default
-import com.alexc.movielistapp.data.models.default2
 import com.alexc.movielistapp.ui.theme.OpenSans
 
 @Composable
