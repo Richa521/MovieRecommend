@@ -32,7 +32,7 @@ fun MostPopularMoviesWidget(
             .padding(start = 10.dp, end = 0.dp)
     ) {
         Text(
-            "Most popular",
+            "Most Popular",
             fontSize = 23.sp,
             color = MaterialTheme.colors.primary,
             fontFamily = OpenSans,
