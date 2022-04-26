@@ -19,5 +19,5 @@ Movie list app build using Jetpack Compose and the IMDb-API
 - Retrofit 
 - Coil
 - Architecture: 
-  - MVVM Architecture (View - DataBinding - ViewModel - Model)
+  - MVVM Architecture
 
