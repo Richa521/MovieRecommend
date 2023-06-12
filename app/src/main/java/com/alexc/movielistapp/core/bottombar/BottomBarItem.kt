@@ -21,6 +21,18 @@ sealed class BottomBarItem(
         icon = Icons.Rounded.Search
     )
 
+    object Favorites : BottomBarItem(
+        navigation = "favorites_screen",
+        title = "Favorites",
+        icon = Icons.Rounded.Favorite
+    )
+
+    object Watchlist : BottomBarItem(
+        navigation = "watchlist_screen",
+        title = "Watchlist",
+        icon = Icons.Rounded.Bookmarks
+    )
+
     object Settings : BottomBarItem(
         navigation = "settings_screen",
         title = "Settings",

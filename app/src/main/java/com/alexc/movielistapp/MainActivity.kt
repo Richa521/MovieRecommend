@@ -14,7 +14,9 @@ import com.alexc.movielistapp.core.homescreen.HomeScreen
 import com.alexc.movielistapp.core.moviedetails.MovieDetailsScreen
 import com.alexc.movielistapp.core.movielist.MovieListScreen
 import com.alexc.movielistapp.core.search.SearchScreen
+import com.alexc.movielistapp.favourites.FavoritesScreen
 import com.alexc.movielistapp.core.settings.SettingsScreen
+import com.alexc.movielistapp.core.watchlist.WatchlistScreen
 import com.alexc.movielistapp.repository.MovieRepository
 import com.alexc.movielistapp.ui.theme.MovieListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -70,6 +72,13 @@ class MainActivity : ComponentActivity() {
 
                     composable("settings_screen") {
                         SettingsScreen(navController)
+                    }
+                    composable("favorites_screen") {
+                        FavoritesScreen(navController)
+                    }
+
+                    composable("watchlist_screen") {
+                        WatchlistScreen(navController)
                     }
                 }
             }

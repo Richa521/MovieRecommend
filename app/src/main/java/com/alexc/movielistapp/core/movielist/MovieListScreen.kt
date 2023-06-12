@@ -8,6 +8,7 @@ import androidx.compose.material.icons.rounded.ArrowBackIos
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.alexc.movielistapp.ui.theme.OpenSans
 
@@ -46,3 +47,5 @@ fun MovieListScreen(
         MovieList(navController = navController, category = category)
     }
 }
+
+

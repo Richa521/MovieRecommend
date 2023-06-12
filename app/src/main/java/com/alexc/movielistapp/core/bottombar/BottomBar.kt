@@ -7,17 +7,22 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
+
 
 @Composable
 fun BottomBar(navController: NavController) {
     val screens = listOf(
         BottomBarItem.Home,
         BottomBarItem.Search,
+        BottomBarItem.Favorites,
+        BottomBarItem.Watchlist,
         BottomBarItem.Settings
     )
 
@@ -43,9 +48,14 @@ fun RowScope.AddItem(
 ) {
     BottomNavigationItem(
         icon = {
-            Icon(imageVector = screen.icon, contentDescription = "Nav icon",
-            modifier = Modifier.size(30.dp))
+            Icon(
+                imageVector = screen.icon,
+                contentDescription = screen.title,
+                modifier = Modifier.size(30.dp)
+            )
         },
+
+
         selected = currentDest?.hierarchy?.any {
             it.route == screen.navigation
         } == true,
@@ -59,5 +69,16 @@ fun RowScope.AddItem(
         selectedContentColor = MaterialTheme.colors.secondary,
         unselectedContentColor = MaterialTheme.colors.primary
     )
+}
+
+
+@Preview
+@Composable
+fun BottomBarPreview() {
+    // Create a sample NavController instance (you can use a mock implementation)
+    val navController = rememberNavController()
+
+    // Call the original BottomBar composable
+    BottomBar(navController = navController)
 }
 

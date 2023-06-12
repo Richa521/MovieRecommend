@@ -11,8 +11,13 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.MovieListApp">
+        android:theme="@style/Theme.MovieListApp"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".favourites.FavouritesActivity"
+            android:exported="false"
+            android:label="@string/title_activity_favourites"
+            android:theme="@style/Theme.MovieListApp" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
