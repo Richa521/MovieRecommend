@@ -3,6 +3,7 @@ package com.alexc.movielistapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -19,6 +20,8 @@ import com.alexc.movielistapp.core.search.SearchScreen
 import com.alexc.movielistapp.favourites.FavoritesScreen
 import com.alexc.movielistapp.core.settings.SettingsScreen
 import com.alexc.movielistapp.core.watchlist.WatchlistScreen
+import com.alexc.movielistapp.favourites.FavoritesViewModel
+import com.alexc.movielistapp.favourites.PreferencesHelper
 import com.alexc.movielistapp.repository.MovieRepository
 import com.alexc.movielistapp.ui.theme.MovieListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,43 +32,56 @@ class MainActivity : ComponentActivity() {
 
     @Inject
     lateinit var repository: MovieRepository
+    private val favoritesViewModel: FavoritesViewModel by viewModels()
+
+    private lateinit var preferenceHelper: PreferencesHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         ThemeState.setIsDarkMode(this)
 
+        preferenceHelper = PreferencesHelper(this) // Initialize PreferenceHelper
+
         setContent {
             MovieListAppTheme {
                 val navController = rememberNavController()
+
                 NavHost(navController = navController, startDestination = "home_screen") {
                     composable("home_screen") {
                         HomeScreen(navController)
                     }
 
-                    composable("movie_details_screen/{movieId}", arguments = listOf(
-                        navArgument("movieId") {
-                            type = NavType.StringType
-                        }
-                    )
-                    ) {
-                        val movieId = remember {
-                            it.arguments?.getString("movieId")
-                        }
+                    composable(
+                        "movie_details_screen/{movieId}",
+                        arguments = listOf(
+                            navArgument("movieId") {
+                                type = NavType.StringType
+                            }
+                        )
+                    ) { backStackEntry ->
+                        val movieId = backStackEntry.arguments?.getString("movieId")
+                        MovieDetailsScreen(
+                            navController = navController,
+                            movieId = movieId ?: "",
+                            favoritesViewModel = favoritesViewModel,
 
-                        MovieDetailsScreen(navController = navController, movieId = movieId ?: "")
+                        )
                     }
 
-                    composable("movie_list/{category}", arguments = listOf(
-                        navArgument("category") {
-                            type = NavType.StringType
-                        }
-                    )) {
-                        val category = remember {
-                            it.arguments?.getString("category")
-                        }
-
-                        MovieListScreen(navController = navController, category = category ?: "")
+                    composable(
+                        "movie_list/{category}",
+                        arguments = listOf(
+                            navArgument("category") {
+                                type = NavType.StringType
+                            }
+                        )
+                    ) { backStackEntry ->
+                        val category = backStackEntry.arguments?.getString("category")
+                        MovieListScreen(
+                            navController = navController,
+                            category = category ?: "",
+                        )
                     }
 
                     composable("search_screen") {
@@ -75,8 +91,13 @@ class MainActivity : ComponentActivity() {
                     composable("settings_screen") {
                         SettingsScreen(navController)
                     }
+
                     composable("favorites_screen") {
-                        FavoritesScreen(navController)
+                        FavoritesScreen(
+                            navController = navController,
+                            favoritesViewModel = favoritesViewModel,
+                            preferenceHelper = preferenceHelper
+                        )
                     }
 
                     composable("watchlist_screen") {

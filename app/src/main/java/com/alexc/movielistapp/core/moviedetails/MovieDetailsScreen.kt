@@ -9,7 +9,9 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
@@ -25,6 +27,8 @@ import androidx.navigation.compose.rememberNavController
 import com.alexc.movielistapp.common.Resource
 import com.alexc.movielistapp.core.moviedetails.views.MovieDescription
 import com.alexc.movielistapp.data.models.*
+import com.alexc.movielistapp.favourites.FavoritesViewModel
+import com.alexc.movielistapp.repository.MovieRepository
 import com.google.accompanist.coil.rememberCoilPainter
 
 
@@ -32,29 +36,34 @@ import com.google.accompanist.coil.rememberCoilPainter
 fun MovieDetailsScreen(
     navController: NavController,
     movieId: String,
-    viewModel: MovieDetailsViewModel = hiltViewModel()
+    viewModel: MovieDetailsViewModel = hiltViewModel(),
+    favoritesViewModel: FavoritesViewModel = hiltViewModel()
 ) {
 
     val movieInfo = produceState<Resource<MovieItem>>(initialValue = Resource.Loading()) {
         value = viewModel.loadMovie(movieId)
     }.value
 
-
     Box(modifier = Modifier.fillMaxSize()) {
         MovieDetailStateWrapper(
             navController = navController,
             movieItem = movieInfo,
+            favoritesViewModel = favoritesViewModel,
             loadingModifier = Modifier.align(Alignment.Center)
         )
+
     }
+
+
 }
+
 
 @Composable
 fun MovieDetail(
     navController: NavController,
     movie: MovieItem,
+    favoritesViewModel: FavoritesViewModel
 ) {
-
     val scrollState = rememberScrollState()
     val color = MaterialTheme.colors.background
 
@@ -99,11 +108,11 @@ fun MovieDetail(
                 }
         ) {
             MovieDescription(
-                movie,
-                navController = navController
+                movieItem = movie,
+                navController = navController,
+                favoritesViewModel = favoritesViewModel
             )
         }
-
     }
 
     Box(
@@ -166,12 +175,17 @@ fun MovieDetail(
 fun MovieDetailStateWrapper(
     navController: NavController,
     movieItem: Resource<MovieItem>,
+    favoritesViewModel: FavoritesViewModel,
     modifier: Modifier = Modifier,
     loadingModifier: Modifier = Modifier
 ) {
     when (movieItem) {
         is Resource.Success -> {
-            MovieDetail(navController = navController, movie = movieItem.data!!)
+            MovieDetail(
+                navController = navController,
+                movie = movieItem.data!!,
+                favoritesViewModel = favoritesViewModel
+            )
         }
         is Resource.Error -> {
             Text(

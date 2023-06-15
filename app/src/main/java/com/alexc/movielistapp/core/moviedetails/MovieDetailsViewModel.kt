@@ -14,4 +14,7 @@ class MovieDetailsViewModel @Inject constructor(
 
     suspend fun loadMovie(movieId: String): Resource<MovieItem> =
         repository.getMovieDetails(movieId)
+
+
+
 }

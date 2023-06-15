@@ -5,21 +5,30 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.alexc.movielistapp.data.models.MovieItem
+import com.alexc.movielistapp.favourites.FavoritesViewModel
 import com.alexc.movielistapp.ui.theme.OpenSans
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
+
 
 @Composable
 fun MovieDescription(
     movieItem: MovieItem,
-    navController: NavController
+    navController: NavController,
+    favoritesViewModel: FavoritesViewModel = hiltViewModel()
 ) {
+    val coroutineScope = rememberCoroutineScope()
 
     Spacer(modifier = Modifier.height(10.dp))
 
@@ -41,17 +50,17 @@ fun MovieDescription(
             .padding(horizontal = 20.dp)
             .padding(top = 8.dp)
     ) {
-        // "Add to Favorite" button
         Button(
-            onClick = { /* Handle "Add to Favorite" button click */ },
-            modifier = Modifier.weight(1f)
+            onClick = {
+                favoritesViewModel.addToFavorites(movieItem)
+                navController.navigate("favorites_screen")
+            }
         ) {
-            Text("Add to Favorite")
+            Text(text = "Add to Favorites")
         }
 
         Spacer(modifier = Modifier.width(8.dp))
 
-        // "Add to Watchlist" button
         Button(
             onClick = { /* Handle "Add to Watchlist" button click */ },
             modifier = Modifier.weight(1f)
@@ -108,4 +117,6 @@ fun MovieDescription(
     Spacer(modifier = Modifier.height(30.dp))
 
 }
+
+
 
