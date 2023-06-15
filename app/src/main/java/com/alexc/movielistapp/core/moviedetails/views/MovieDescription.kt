@@ -1,6 +1,7 @@
 package com.alexc.movielistapp.core.moviedetails.views
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +35,33 @@ fun MovieDescription(
         textAlign = TextAlign.Center,
     )
 
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .padding(top = 8.dp)
+    ) {
+        // "Add to Favorite" button
+        Button(
+            onClick = { /* Handle "Add to Favorite" button click */ },
+            modifier = Modifier.weight(1f)
+        ) {
+            Text("Add to Favorite")
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        // "Add to Watchlist" button
+        Button(
+            onClick = { /* Handle "Add to Watchlist" button click */ },
+            modifier = Modifier.weight(1f)
+        ) {
+            Text("Add to Watchlist")
+        }
+    }
+
+
+
     Text(
         movieItem.year + "  .  " + movieItem.genres + "  .  " + movieItem.runtimeStr,
         fontSize = 12.sp,
@@ -45,7 +73,7 @@ fun MovieDescription(
         textAlign = TextAlign.Center,
     )
 
-    if (movieItem.imDbRating != null && movieItem.imDbRating.isNotEmpty()) {
+    if (movieItem.imDbRating.isNotEmpty()) {
         val rating = (movieItem.imDbRating.toFloat() * 5) / 10
 
         Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {

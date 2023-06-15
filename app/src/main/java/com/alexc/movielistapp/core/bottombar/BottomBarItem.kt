@@ -33,9 +33,5 @@ sealed class BottomBarItem(
         icon = Icons.Rounded.Bookmarks
     )
 
-    object Settings : BottomBarItem(
-        navigation = "settings_screen",
-        title = "Settings",
-        icon = Icons.Rounded.Settings
-    )
+
 }

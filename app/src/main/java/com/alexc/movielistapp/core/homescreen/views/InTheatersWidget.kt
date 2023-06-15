@@ -5,8 +5,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -44,14 +48,31 @@ fun InTheatersWidget(
 
 
     Column {
-        Text(
-            "In Theaters",
-            fontSize = 23.sp,
-            color = MaterialTheme.colors.primary,
-            fontFamily = OpenSans,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(start = 17.dp)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "In Theaters",
+                fontSize = 23.sp,
+                color = MaterialTheme.colors.primary,
+                fontFamily = OpenSans,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(start = 17.dp)
+            )
+
+            IconButton(
+                onClick = {
+                    navController.navigate("settings_screen")
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "For You"
+                )
+            }
+        }
 
         Spacer(modifier = Modifier.height(20.dp))
 

@@ -34,7 +34,7 @@ fun SettingsScreen(
         TopAppBar(
             title = {
                 Text(
-                    text = "Settings",
+                    text = "For You",
                     fontFamily = OpenSans,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colors.primary

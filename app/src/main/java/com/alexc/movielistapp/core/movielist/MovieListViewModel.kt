@@ -13,6 +13,7 @@ class MovieListViewModel @Inject constructor(
     private val repository: MovieRepository
 ) : ViewModel() {
 
+
     suspend fun loadMovies(category: String): Resource<List<MovieListItem>> =
         repository.getMoviesByCategory(category = category)
 }

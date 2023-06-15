@@ -23,7 +23,7 @@ fun BottomBar(navController: NavController) {
         BottomBarItem.Search,
         BottomBarItem.Favorites,
         BottomBarItem.Watchlist,
-        BottomBarItem.Settings
+
     )
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()

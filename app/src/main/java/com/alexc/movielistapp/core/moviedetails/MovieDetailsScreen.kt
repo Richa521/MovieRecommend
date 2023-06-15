@@ -9,18 +9,19 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.produceState
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.alexc.movielistapp.common.Resource
 import com.alexc.movielistapp.core.moviedetails.views.MovieDescription
 import com.alexc.movielistapp.data.models.*
@@ -186,5 +187,14 @@ fun MovieDetailStateWrapper(
             )
         }
     }
+}
+@Preview
+@Composable
+fun MovieDetailsScreenPreview() {
+    val navController = rememberNavController()
+    val movieId = "123" // Replace with your desired movie ID
+    val viewModel: MovieDetailsViewModel = viewModel() // Provide your own ViewModel
+
+    MovieDetailsScreen(navController = navController, movieId = movieId, viewModel = viewModel)
 }
 
