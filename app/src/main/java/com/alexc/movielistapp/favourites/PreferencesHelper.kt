@@ -29,4 +29,20 @@ class PreferencesHelper(context: Context) {
             emptyList()
         }
     }
+
+    fun saveWatchlist(watchlist: List<MovieItem>) {
+        val gson = Gson()
+        val jsonWatchlist = gson.toJson(watchlist)
+        preferences.edit().putString("watchlist", jsonWatchlist).apply()
+    }
+
+    fun getWatchlist(): List<MovieItem> {
+        val gson = Gson()
+        val jsonWatchlist = preferences.getString("watchlist", null)
+        return if (jsonWatchlist != null) {
+            gson.fromJson(jsonWatchlist, Array<MovieItem>::class.java).toList()
+        } else {
+            emptyList()
+        }
+    }
 }

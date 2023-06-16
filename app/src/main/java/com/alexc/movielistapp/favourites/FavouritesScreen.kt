@@ -61,6 +61,10 @@ fun FavoritesScreen(
                 backgroundColor = MaterialTheme.colors.surface,
             )
         },
+        bottomBar = {
+            BottomBar(navController)
+        },
+
         modifier = Modifier.fillMaxSize()
     ) {
         Column(
@@ -155,6 +159,11 @@ fun MovieListItem(
 }
 
 private fun navigateToMovieDetails(navController: NavController, movieId: String) {
-    navController.navigate("movieDetails/$movieId")
+    navController.navigate("movie_details_screen/$movieId") {
+        launchSingleTop = true
+    }
 }
+
+
+
 

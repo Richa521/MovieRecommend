@@ -20,6 +20,7 @@ import com.alexc.movielistapp.core.search.SearchScreen
 import com.alexc.movielistapp.favourites.FavoritesScreen
 import com.alexc.movielistapp.core.settings.SettingsScreen
 import com.alexc.movielistapp.core.watchlist.WatchlistScreen
+import com.alexc.movielistapp.core.watchlist.WatchlistViewModel
 import com.alexc.movielistapp.favourites.FavoritesViewModel
 import com.alexc.movielistapp.favourites.PreferencesHelper
 import com.alexc.movielistapp.repository.MovieRepository
@@ -33,6 +34,7 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var repository: MovieRepository
     private val favoritesViewModel: FavoritesViewModel by viewModels()
+    private val watchlistViewModel: WatchlistViewModel by viewModels()
 
     private lateinit var preferenceHelper: PreferencesHelper
 
@@ -65,6 +67,7 @@ class MainActivity : ComponentActivity() {
                             navController = navController,
                             movieId = movieId ?: "",
                             favoritesViewModel = favoritesViewModel,
+                            watchlistViewModel = watchlistViewModel
 
                         )
                     }
@@ -101,7 +104,11 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("watchlist_screen") {
-                        WatchlistScreen(navController)
+                        WatchlistScreen(
+                            navController = navController,
+                            watchlistViewModel = watchlistViewModel,
+                            preferenceHelper = preferenceHelper
+                        )
                     }
                 }
             }

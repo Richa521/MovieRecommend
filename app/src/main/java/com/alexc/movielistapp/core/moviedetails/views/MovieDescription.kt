@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.alexc.movielistapp.core.watchlist.WatchlistViewModel
 import com.alexc.movielistapp.data.models.MovieItem
 import com.alexc.movielistapp.favourites.FavoritesViewModel
 import com.alexc.movielistapp.ui.theme.OpenSans
@@ -26,7 +27,9 @@ import kotlinx.coroutines.launch
 fun MovieDescription(
     movieItem: MovieItem,
     navController: NavController,
-    favoritesViewModel: FavoritesViewModel = hiltViewModel()
+    favoritesViewModel: FavoritesViewModel = hiltViewModel(),
+    watchlistViewModel: WatchlistViewModel = hiltViewModel()
+
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -62,8 +65,10 @@ fun MovieDescription(
         Spacer(modifier = Modifier.width(8.dp))
 
         Button(
-            onClick = { /* Handle "Add to Watchlist" button click */ },
-            modifier = Modifier.weight(1f)
+            onClick = {
+                watchlistViewModel.addToWatchlist(movieItem)
+                navController.navigate("watchlist_screen")
+            }
         ) {
             Text("Add to Watchlist")
         }
