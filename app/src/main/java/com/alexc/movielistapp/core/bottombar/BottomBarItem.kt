@@ -21,6 +21,12 @@ sealed class BottomBarItem(
         icon = Icons.Rounded.Search
     )
 
+    object ForYou : BottomBarItem(
+        navigation = "for_you_screen",
+        title = "For You",
+        icon = Icons.Rounded.Person
+    )
+
     object Favorites : BottomBarItem(
         navigation = "favorites_screen",
         title = "Favorites",

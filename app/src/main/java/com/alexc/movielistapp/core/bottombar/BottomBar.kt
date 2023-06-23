@@ -19,8 +19,10 @@ import androidx.navigation.compose.rememberNavController
 @Composable
 fun BottomBar(navController: NavController) {
     val screens = listOf(
+
         BottomBarItem.Home,
         BottomBarItem.Search,
+        BottomBarItem.ForYou,
         BottomBarItem.Favorites,
         BottomBarItem.Watchlist,
 

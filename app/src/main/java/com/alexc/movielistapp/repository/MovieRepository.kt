@@ -6,6 +6,8 @@ import com.alexc.movielistapp.data.models.MovieItem
 import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.data.remote.MoviesApi
 import dagger.hilt.android.scopes.ActivityScoped
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @ActivityScoped
@@ -62,4 +64,13 @@ class MovieRepository @Inject constructor(
 
         return Resource.Success(response.results)
     }
+
+    suspend fun getDefaultMovies(): Resource<List<MovieListItem>> {
+        val defaultCategory = "popular" // You can use any default category here
+        return getMoviesByCategory(defaultCategory)
+    }
+
+
+
+
 }

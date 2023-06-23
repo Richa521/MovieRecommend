@@ -13,10 +13,13 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.alexc.movielistapp.core.ForYou.ForYouScreen
+import com.alexc.movielistapp.core.ForYou.ForYouViewModel
 import com.alexc.movielistapp.core.homescreen.HomeScreen
 import com.alexc.movielistapp.core.moviedetails.MovieDetailsScreen
 import com.alexc.movielistapp.core.movielist.MovieListScreen
 import com.alexc.movielistapp.core.search.SearchScreen
+import com.alexc.movielistapp.core.search.SearchViewModel
 import com.alexc.movielistapp.favourites.FavoritesScreen
 import com.alexc.movielistapp.core.settings.SettingsScreen
 import com.alexc.movielistapp.core.watchlist.WatchlistScreen
@@ -88,12 +91,32 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("search_screen") {
-                        SearchScreen(navController = navController)
+                        val movieList = listOf("Phantom", "Flash", "Bahubali", "Spiderman", "Padmavati")
+                        val viewModel: SearchViewModel = hiltViewModel()
+
+                        SearchScreen(
+                            navController = navController,
+                            viewModel = viewModel,
+                            movieList = movieList
+                        )
                     }
 
                     composable("settings_screen") {
                         SettingsScreen(navController)
                     }
+
+                    composable("for_you_screen") { backStackEntry ->
+                        val navController = rememberNavController()
+                        val nearestMovies = mutableListOf<String>()
+
+
+                        ForYouScreen(navController = navController)
+                    }
+
+
+
+
+
 
                     composable("favorites_screen") {
                         FavoritesScreen(

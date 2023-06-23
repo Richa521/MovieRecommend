@@ -19,14 +19,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBackIos
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -40,11 +36,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.alexc.movielistapp.core.bottombar.BottomBar
-import com.alexc.movielistapp.core.homescreen.views.CategoriesWidget
-import com.alexc.movielistapp.core.homescreen.views.InTheatersWidget
-import com.alexc.movielistapp.core.homescreen.views.MostPopularMoviesWidget
-import com.alexc.movielistapp.core.movielist.MovieList
 import com.alexc.movielistapp.data.models.MovieItem
+import com.alexc.movielistapp.favourites.MovieListItem
 import com.alexc.movielistapp.favourites.PreferencesHelper
 import com.alexc.movielistapp.ui.theme.OpenSans
 import com.google.accompanist.coil.rememberCoilPainter
@@ -98,7 +91,7 @@ fun WatchlistScreen(
                 }
             } else {
                 LazyColumn(contentPadding = PaddingValues(16.dp)) {
-                    items(watchlistViewModel.watchlistMovies.value!!) { movie ->
+                    items(watchlistViewModel.watchlistMovies.value!!) {  movie ->
                         MovieListItem(movie = movie, navController = navController)
                     }
                 }
@@ -121,7 +114,12 @@ fun MovieListItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp)
-            .clickable { navigateToMovieDetails(navController, movie.id) },
+            .clickable {
+                com.alexc.movielistapp.favourites.navigateToMovieDetails(
+                    navController,
+                    movie.id
+                )
+            },
         elevation = 4.dp
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
@@ -146,15 +144,6 @@ fun MovieListItem(
 
                 Spacer(modifier = Modifier.height(4.dp))
 
-                Text(
-                    text = movie.genres,
-                    fontSize = 14.sp,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
                     text = movie.year,

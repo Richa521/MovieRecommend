@@ -158,7 +158,7 @@ fun MovieListItem(
     }
 }
 
-private fun navigateToMovieDetails(navController: NavController, movieId: String) {
+fun navigateToMovieDetails(navController: NavController, movieId: String) {
     navController.navigate("movie_details_screen/$movieId") {
         launchSingleTop = true
     }
