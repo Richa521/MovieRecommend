@@ -75,6 +75,7 @@ class MainActivity : ComponentActivity() {
                             watchlistViewModel = watchlistViewModel
 
                         )
+
                     }
 
                     composable(
@@ -93,14 +94,14 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("search_screen") {
-                        val movieList = listOf("Phantom", "Flash", "Bahubali", "Spiderman", "Padmavati")
+//                        val movieList = listOf("Phantom", "Flash", "Bahubali", "Spiderman", "Padmavati")
                         val viewModel: SearchViewModel = hiltViewModel()
 
                         SearchScreen(
                             navController = navController,
-                            viewModel = viewModel,
-                            movieList = movieList
+                            viewModel = viewModel
                         )
+
                     }
 
                     composable("settings_screen") {
@@ -108,10 +109,6 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("for_you_screen") { backStackEntry ->
-                        val navController = rememberNavController()
-                        val nearestMovies = mutableListOf<String>()
-
-
                         ForYouScreen(navController = navController)
                     }
 

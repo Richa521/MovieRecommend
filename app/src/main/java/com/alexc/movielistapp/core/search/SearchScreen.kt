@@ -34,8 +34,7 @@ import com.alexc.movielistapp.data.models.MovieItem
 @Composable
 fun SearchScreen(
     navController: NavController,
-    viewModel: SearchViewModel = hiltViewModel(),
-    movieList: List<String>
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
     Scaffold(
         bottomBar = {
@@ -47,15 +46,14 @@ fun SearchScreen(
 
         val state = viewModel.state
 
-        val nearestMovieList = remember { mutableStateListOf<String>() }
-
-        if (movieList.isNotEmpty()) {
-            val firstMovie = movieList.first()
-            nearestMovieList.clear()
-            nearestMovieList.add(firstMovie)
-        }
-
-
+//        val nearestMovieList = remember { mutableStateListOf<String>() }
+//
+//        if (movieList.isNotEmpty()) {
+//            val firstMovie = movieList.first()
+//            nearestMovieList.clear()
+//            nearestMovieList.add(firstMovie)
+//        }
+//
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -127,9 +125,8 @@ fun SearchScreen(
                 }
             }
         }
-        LaunchedEffect(state.movies) {
-            viewModel.updateNearestMovieList()
-        }
-
+//        LaunchedEffect(state.movies) {
+//            viewModel.updateNearestMovieList()
+//        }
     }
 }

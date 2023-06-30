@@ -1,6 +1,7 @@
 package com.alexc.movielistapp.core.ForYou
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.alexc.movielistapp.core.bottombar.BottomBar
+import com.alexc.movielistapp.core.search.SearchViewModel
+import com.alexc.movielistapp.core.search.views.SearchInfoView
 import com.alexc.movielistapp.core.watchlist.MovieListItem
 import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.ui.theme.OpenSans
@@ -51,14 +54,33 @@ import com.google.accompanist.coil.rememberCoilPainter
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ForYouScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel:ForYouViewModel = hiltViewModel()
 ) {
+//    val state = viewModel.state
+//        val nearestMovies = remember {
+//            val args = navController.currentBackStackEntry?.arguments
+//            val movieTitles = args?.getString("nearestMovies")?.split(",") ?: emptyList()
+//            movieTitles.map { Movie(it) }
+//        }
+    val state = viewModel.state
 
-        val nearestMovies = remember {
-            val args = navController.currentBackStackEntry?.arguments
-            val movieTitles = args?.getString("nearestMovies")?.split(",") ?: emptyList()
-            movieTitles.map { Movie(it) }
-        }
+    val movieList = listOf("Phantom", "Flash", "Bahubali", "Spiderman", "Padmavati")
+    viewModel.onSearchBackend("Phantom")
+    val rec_list_id: List<Int> = listOf()
+
+
+//        if(state.movies.isEmpty()){
+//            Log.i("isEmpty","Emplty List")
+//        }
+//        else if (state.isError){
+//            SearchInfoView()
+//        }
+//        else if(state.isLoading){
+//            CircularProgressIndicator(color = MaterialTheme.colors.primary)
+//        }
+
+
 
     Scaffold(
         topBar = {
@@ -79,25 +101,26 @@ fun ForYouScreen(
         },
         modifier = Modifier.fillMaxSize()
     ) {
-        if (nearestMovies.isNotEmpty()) {
-            LazyColumn {
-                items(nearestMovies) { movie ->
-                    Text(text = movie.title)
-                }
-
-            }
-        } else {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "No movies available",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colors.onBackground
-                )
-            }
-        }
+//        if (nearestMovies.isNotEmpty()) {
+//            LazyColumn {
+//                items(nearestMovies) { movie ->
+//                    Text(text = movie.title)
+//                }
+//
+//            }
+//        } else {
+//            Box(
+//                modifier = Modifier.fillMaxSize(),
+//                contentAlignment = Alignment.Center
+//            ) {
+//                Text(
+//                    text = "No movies available",
+//                    fontSize = 18.sp,
+//                    fontWeight = FontWeight.Bold,
+//                    color = MaterialTheme.colors.onBackground
+//                )
+//            }
+//        }
     }
+
 }

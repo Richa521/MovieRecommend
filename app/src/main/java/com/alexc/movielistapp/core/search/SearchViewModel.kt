@@ -28,8 +28,8 @@ class SearchViewModel @Inject constructor(
 ) : ViewModel() {
 
     var state by mutableStateOf(SearchState())
-    var nearestMovieList by mutableStateOf<List<String>>(emptyList())
-    var nearestMovies by mutableStateOf<List<String>>(emptyList())
+//    var nearestMovieList by mutableStateOf<List<String>>(emptyList())
+//    var nearestMovies by mutableStateOf<List<String>>(emptyList())
 
     private var searchJob: Job? = null
 
@@ -45,6 +45,7 @@ class SearchViewModel @Inject constructor(
 
     private suspend fun searchMovie() {
         state = state.copy(isLoading = true)
+
         val result = repository.getMoviesBySearch(searchTerm = state.searchTerm)
         when (result) {
             is Resource.Success -> {
@@ -53,7 +54,7 @@ class SearchViewModel @Inject constructor(
                     isError = false,
                     movies = result.data ?: emptyList()
                 )
-                updateNearestMovieList()
+                println(state.movies)
             }
 
             is Resource.Error -> {
@@ -65,21 +66,22 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun updateNearestMovieList() {
-        val searchResultMovies = state.movies
 
-
-        val list = listOf("Phantom", "Flash", "Bahubali", "Spiderman", "Padmavati")
-        val nearestMovies = mutableListOf<String>()
-
-        for (movieName in list) {
-            val nearestMovie = searchResultMovies.find { movie -> movie.title == movieName }
-            nearestMovie?.let {
-                nearestMovies.add(it.title)
-            }
-        }
-
-
-        nearestMovieList = nearestMovies
-    }
+//    fun updateNearestMovieList() {
+//        val searchResultMovies = state.movies
+//
+//
+//        val list = listOf("Phantom", "Flash", "Bahubali", "Spiderman", "Padmavati")
+//        val nearestMovies = mutableListOf<String>()
+//
+//        for (movieName in list) {
+//            val nearestMovie = searchResultMovies.find { movie -> movie.title == movieName }
+//            nearestMovie?.let {
+//                nearestMovies.add(it.title)
+//            }
+//        }
+//
+//
+//        nearestMovieList = nearestMovies
+//    }
 }
