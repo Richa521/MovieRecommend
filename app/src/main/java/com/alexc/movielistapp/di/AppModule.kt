@@ -10,6 +10,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -28,12 +29,12 @@ class AppModule {
     @Singleton
     @Provides
     fun provideMovieApi(): MoviesApi{
-        return Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(ApiConstants.API_BASE_URL)
-            .build()
+        return  Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/3/")
+            .addConverterFactory(GsonConverterFactory.create()).client(OkHttpClient.Builder().build()).build()
             .create(MoviesApi::class.java)
     }
+
 
     @Provides
     fun providePreferencesHelper(context: Context): PreferencesHelper {

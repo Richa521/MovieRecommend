@@ -1,10 +1,11 @@
 package com.alexc.movielistapp.core.homescreen
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alexc.movielistapp.common.Resource
-import com.alexc.movielistapp.data.models.MovieListItem
+import com.alexc.movielistapp.data.model.Result
 import com.alexc.movielistapp.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,11 +17,11 @@ class HomeScreenViewModel @Inject constructor(
     private val repository: MovieRepository
 ) : ViewModel() {
 
-    val mostPopularMoviesList = mutableStateOf<List<MovieListItem>>(listOf())
+    val mostPopularMoviesList = mutableStateOf<List<Result>>(listOf())
     val mostPopularIsLoading = mutableStateOf(false)
     val mostPopularIsError = mutableStateOf(false)
 
-    val inTheatersMovies = mutableStateOf<List<MovieListItem>>(listOf())
+    val inTheatersMovies = mutableStateOf<List<Result>>(listOf())
     val inTheatersIsLoading = mutableStateOf(false)
 
     init {
@@ -37,6 +38,7 @@ class HomeScreenViewModel @Inject constructor(
             when (result) {
                 is Resource.Success -> {
                     mostPopularMoviesList.value = result.data!!
+
                 }
 
                 is Resource.Error -> {

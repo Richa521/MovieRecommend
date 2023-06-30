@@ -31,6 +31,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.alexc.movielistapp.core.bottombar.BottomBar
 import com.alexc.movielistapp.core.movielist.MovieList
+import com.alexc.movielistapp.data.model.MovieDetails
 import com.alexc.movielistapp.data.models.MovieItem
 import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.repository.MovieRepository
@@ -90,20 +91,20 @@ fun FavoritesScreen(
             } else {
                 LazyColumn(contentPadding = PaddingValues(16.dp)) {
                     items(favoritesViewModel.favoriteMovies.value!!) { movie ->
-                        MovieListItem(movie = movie, navController = navController)
+                       com.alexc.movielistapp.favourites.MovieListItem(movie = movie, navController = navController)
                     }
                 }
             }
         }
     }
     LaunchedEffect(favoriteMovies) {
-        preferenceHelper.saveFavorites(favoriteMovies)
+       // preferenceHelper.saveFavorites(favoriteMovies)
     }
 }
 
 @Composable
 fun MovieListItem(
-    movie: MovieItem,
+    movie: MovieDetails,
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
@@ -111,12 +112,12 @@ fun MovieListItem(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 16.dp)
-            .clickable { navigateToMovieDetails(navController, movie.id) },
+            .clickable { navigateToMovieDetails(navController, movie.id.toString()) },
         elevation = 4.dp
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             Image(
-                painter = rememberCoilPainter(request = movie.image),
+                painter = rememberCoilPainter(request ="https://image.tmdb.org/t/p/original"+ movie.poster_path),
                 contentDescription = "",
                 modifier = Modifier
                     .size(80.dp)
@@ -137,7 +138,7 @@ fun MovieListItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = movie.genres,
+                    text = movie.genres[0].name,
                     fontSize = 14.sp,
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
                     maxLines = 1,
@@ -147,7 +148,7 @@ fun MovieListItem(
                 Spacer(modifier = Modifier.height(4.dp))
 
                 Text(
-                    text = movie.year,
+                    text = movie.vote_average.toString(),
                     fontSize = 14.sp,
                     color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
                     maxLines = 1,

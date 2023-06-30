@@ -5,6 +5,8 @@ import com.alexc.movielistapp.data.models.MovieItem
 import com.google.gson.reflect.TypeToken
 import android.content.Context
 import android.content.SharedPreferences
+import android.telecom.Call
+import com.alexc.movielistapp.data.model.MovieDetails
 import com.google.gson.Gson
 
 
@@ -14,33 +16,33 @@ class PreferencesHelper(context: Context) {
         Context.MODE_PRIVATE
     )
 
-    fun saveFavorites(favorites: List<MovieItem>) {
+    fun saveFavorites(favorites:Call.Details) {
         val gson = Gson()
         val jsonFavorites = gson.toJson(favorites)
         preferences.edit().putString("favorites", jsonFavorites).apply()
     }
 
-    fun getFavorites(): List<MovieItem> {
+    fun getFavorites(): List<MovieDetails> {
         val gson = Gson()
         val jsonFavorites = preferences.getString("favorites", null)
         return if (jsonFavorites != null) {
-            gson.fromJson(jsonFavorites, Array<MovieItem>::class.java).toList()
+            gson.fromJson(jsonFavorites, Array<MovieDetails>::class.java).toList()
         } else {
             emptyList()
         }
     }
 
-    fun saveWatchlist(watchlist: List<MovieItem>) {
+    fun saveWatchlist(watchlist: List<MovieDetails>) {
         val gson = Gson()
         val jsonWatchlist = gson.toJson(watchlist)
         preferences.edit().putString("watchlist", jsonWatchlist).apply()
     }
 
-    fun getWatchlist(): List<MovieItem> {
+    fun getWatchlist(): List<MovieDetails> {
         val gson = Gson()
         val jsonWatchlist = preferences.getString("watchlist", null)
         return if (jsonWatchlist != null) {
-            gson.fromJson(jsonWatchlist, Array<MovieItem>::class.java).toList()
+            gson.fromJson(jsonWatchlist, Array<MovieDetails>::class.java).toList()
         } else {
             emptyList()
         }

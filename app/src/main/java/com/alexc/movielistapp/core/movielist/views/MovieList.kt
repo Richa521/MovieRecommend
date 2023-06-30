@@ -12,6 +12,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.alexc.movielistapp.common.Resource
+import com.alexc.movielistapp.data.model.Result
+import com.alexc.movielistapp.data.model.ResultX
 import com.alexc.movielistapp.data.models.MovieListItem
 
 @Composable
@@ -22,7 +24,7 @@ fun MovieList(
 ) {
 
     val moviesResource =
-        produceState<Resource<List<MovieListItem>>>(initialValue = Resource.Loading()) {
+        produceState<Resource<List<Result>>>(initialValue = Resource.Loading()) {
             value = viewModel.loadMovies(category = category)
         }.value
 
@@ -58,7 +60,7 @@ fun MovieList(
 @Composable
 fun MovieListRow(
     rowIndex: Int,
-    movies: List<MovieListItem>,
+    movies: List<Result>,
     navController: NavController
 ) {
     Column {

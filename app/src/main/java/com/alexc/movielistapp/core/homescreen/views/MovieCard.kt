@@ -14,13 +14,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.alexc.movielistapp.data.models.MovieListItem
+import com.alexc.movielistapp.data.model.Result
 import com.alexc.movielistapp.ui.theme.OpenSans
 import com.google.accompanist.coil.rememberCoilPainter
 
 @Composable
 fun MovieCard(
-    movie: MovieListItem,
+    movie: Result,
     modifier: Modifier = Modifier,
     navController: NavController
 ) {
@@ -35,12 +35,13 @@ fun MovieCard(
             .padding(10.dp),
     ) {
         // Get the correct image url
-        val imageSplitUrl = movie.image.split(".", limit = 4)
-        val imageUrl = movie.image.replace(imageSplitUrl[imageSplitUrl.size-1],"") + ".jpg"
+        val poster="https://image.tmdb.org/t/p/original"+movie.poster_path
+        val imageSplitUrl =poster.split(".", limit = 4)
+        val imageUrl = poster.replace(imageSplitUrl[imageSplitUrl.size-1],"") + ".jpg"
 
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Image(
-                painter = rememberCoilPainter(request = imageUrl),
+                painter = rememberCoilPainter(request = poster),
                 contentDescription = movie.title,
                 modifier = Modifier
                     .size(200.dp)

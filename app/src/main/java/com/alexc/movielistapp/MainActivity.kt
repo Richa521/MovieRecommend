@@ -17,6 +17,7 @@ import com.alexc.movielistapp.core.ForYou.ForYouScreen
 import com.alexc.movielistapp.core.ForYou.ForYouViewModel
 import com.alexc.movielistapp.core.homescreen.HomeScreen
 import com.alexc.movielistapp.core.moviedetails.MovieDetailsScreen
+import com.alexc.movielistapp.core.moviedetails.MovieDetailsViewModel
 import com.alexc.movielistapp.core.movielist.MovieListScreen
 import com.alexc.movielistapp.core.search.SearchScreen
 import com.alexc.movielistapp.core.search.SearchViewModel
@@ -38,7 +39,7 @@ class MainActivity : ComponentActivity() {
     lateinit var repository: MovieRepository
     private val favoritesViewModel: FavoritesViewModel by viewModels()
     private val watchlistViewModel: WatchlistViewModel by viewModels()
-
+     private val viewModel:MovieDetailsViewModel by viewModels()
     private lateinit var preferenceHelper: PreferencesHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,6 +70,7 @@ class MainActivity : ComponentActivity() {
                         MovieDetailsScreen(
                             navController = navController,
                             movieId = movieId ?: "",
+                            viewModel=viewModel,
                             favoritesViewModel = favoritesViewModel,
                             watchlistViewModel = watchlistViewModel
 

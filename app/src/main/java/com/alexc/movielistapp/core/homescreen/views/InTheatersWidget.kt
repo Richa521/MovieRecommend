@@ -111,9 +111,9 @@ fun InTheatersWidget(
                 val movie = movieList.get(page)
 
                 // Get the correct image url
-                val imageSplitUrl = movie.image.split(".", limit = 4)
-                val imageUrl = movie.image.replace(imageSplitUrl[imageSplitUrl.size-1],"") + ".jpg"
-
+                //val imageSplitUrl = movie.image.split(".", limit = 4)
+                //val imageUrl = movie.image.replace(imageSplitUrl[imageSplitUrl.size-1],"") + ".jpg"
+               val imageUrl="https://image.tmdb.org/t/p/original"+movie.poster_path
                 Box(modifier = Modifier.clickable {
                     navController.navigate(
                         "movie_details_screen/${movie.id}"

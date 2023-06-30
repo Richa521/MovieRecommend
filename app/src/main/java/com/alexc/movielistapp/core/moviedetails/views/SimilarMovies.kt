@@ -13,7 +13,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.alexc.movielistapp.common.Resource
 import com.alexc.movielistapp.core.homescreen.views.MovieCard
+import com.alexc.movielistapp.data.model.MovieDetails
+import com.alexc.movielistapp.data.model.Result
 import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.data.models.SimilarMovieItem
 import com.alexc.movielistapp.ui.theme.OpenSans
@@ -21,11 +24,11 @@ import com.alexc.movielistapp.ui.theme.OpenSans
 @Composable
 fun SimilarMoviesList(
     navController: NavController,
-    similarList: List<SimilarMovieItem> = arrayListOf()
+    similarList: List<Result>? = arrayListOf<Result>()
 ) {
 
-    val movieList = similarList.map {
-        MovieListItem(id = it.id, title = it.title, image = it.image)
+    val movieList = similarList!!.map {
+        Result(id = it.id, title = it.title, poster_path = it.poster_path)
     }
 
     Column(
@@ -45,7 +48,7 @@ fun SimilarMoviesList(
 
         LazyRow {
             items(movieList.size) {
-                MovieCard(movie = movieList[it], navController = navController)
+               MovieCard(movie = movieList[it], navController = navController)
             }
         }
     }

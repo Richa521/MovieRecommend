@@ -21,13 +21,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.alexc.movielistapp.data.model.Result
+import com.alexc.movielistapp.data.model.ResultX
 import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.ui.theme.OpenSans
 import com.google.accompanist.coil.rememberCoilPainter
 
 @Composable
 fun MovieListCard(
-    movieItem: MovieListItem,
+    movieItem: Result,
     navController: NavController,
     modifier: Modifier
 ) {
@@ -42,7 +44,7 @@ fun MovieListCard(
             .padding(5.dp),
     ) {
         Image(
-            painter = rememberCoilPainter(request = movieItem.image),
+            painter = rememberCoilPainter(request = "https://image.tmdb.org/t/p/original"+movieItem.poster_path),
             contentDescription = movieItem.title,
             modifier = Modifier
                 .clip(RoundedCornerShape(10.dp))

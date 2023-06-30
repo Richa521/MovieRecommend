@@ -16,6 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.alexc.movielistapp.data.model.ProductionCompany
 import com.alexc.movielistapp.data.models.Actor
 import com.alexc.movielistapp.ui.theme.OpenSans
 import com.google.accompanist.coil.rememberCoilPainter
@@ -24,14 +25,14 @@ import com.google.accompanist.coil.rememberCoilPainter
 @Composable
 fun ActorsList(
     navController: NavController,
-    actorsList: List<Actor> = arrayListOf(),
+    actorsList: List<ProductionCompany> = arrayListOf(),
 ) {
     Column(
         modifier = Modifier
             .padding(start = 10.dp, end = 0.dp)
     ) {
         Text(
-            "Top cast",
+            "Production Company",
             fontSize = 20.sp,
             color = MaterialTheme.colors.primary,
             fontFamily = OpenSans,
@@ -52,7 +53,7 @@ fun ActorsList(
 @Composable
 fun ActorCard(
     navController: NavController,
-    actor: Actor,
+    actor: ProductionCompany,
 ) {
 
     Column(
@@ -64,7 +65,7 @@ fun ActorCard(
     ) {
 
         Image(
-            painter = rememberCoilPainter(request = actor.image),
+            painter = rememberCoilPainter(request = "https://image.tmdb.org/t/p/original"+actor.logo_path),
             contentDescription = actor.name,
             modifier = Modifier
                 .size(60.dp)

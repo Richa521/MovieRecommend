@@ -27,6 +27,7 @@ import androidx.navigation.compose.rememberNavController
 import com.alexc.movielistapp.common.Resource
 import com.alexc.movielistapp.core.moviedetails.views.MovieDescription
 import com.alexc.movielistapp.core.watchlist.WatchlistViewModel
+import com.alexc.movielistapp.data.model.MovieDetails
 import com.alexc.movielistapp.data.models.*
 import com.alexc.movielistapp.favourites.FavoritesViewModel
 import com.alexc.movielistapp.repository.MovieRepository
@@ -43,7 +44,7 @@ fun MovieDetailsScreen(
 
 ) {
 
-    val movieInfo = produceState<Resource<MovieItem>>(initialValue = Resource.Loading()) {
+    val movieInfo = produceState<Resource<MovieDetails>>(initialValue = Resource.Loading()) {
         value = viewModel.loadMovie(movieId)
     }.value
 
@@ -51,6 +52,7 @@ fun MovieDetailsScreen(
         MovieDetailStateWrapper(
             navController = navController,
             movieItem = movieInfo,
+            viewModel=viewModel,
             favoritesViewModel = favoritesViewModel,
             watchlistViewModel = watchlistViewModel,
             loadingModifier = Modifier.align(Alignment.Center)
@@ -65,7 +67,8 @@ fun MovieDetailsScreen(
 @Composable
 fun MovieDetail(
     navController: NavController,
-    movie: MovieItem,
+    movie: MovieDetails,
+    viewModel: MovieDetailsViewModel,
     favoritesViewModel: FavoritesViewModel,
     watchlistViewModel: WatchlistViewModel
 ) {
@@ -81,7 +84,7 @@ fun MovieDetail(
     ) {
         val (image, fade, description) = createRefs()
         Image(
-            painter = rememberCoilPainter(request = movie.image),
+            painter = rememberCoilPainter(request = "https://image.tmdb.org/t/p/original"+movie.poster_path),
             contentDescription = "",
             modifier = Modifier
                 .height(400.dp)
@@ -115,6 +118,7 @@ fun MovieDetail(
             MovieDescription(
                 movieItem = movie,
                 navController = navController,
+                viewModel=viewModel,
                 favoritesViewModel = favoritesViewModel,
                 watchlistViewModel = watchlistViewModel
             )
@@ -180,7 +184,8 @@ fun MovieDetail(
 @Composable
 fun MovieDetailStateWrapper(
     navController: NavController,
-    movieItem: Resource<MovieItem>,
+    movieItem: Resource<MovieDetails>,
+    viewModel: MovieDetailsViewModel,
     favoritesViewModel: FavoritesViewModel,
     watchlistViewModel: WatchlistViewModel,
     modifier: Modifier = Modifier,
@@ -191,6 +196,7 @@ fun MovieDetailStateWrapper(
             MovieDetail(
                 navController = navController,
                 movie = movieItem.data!!,
+                  viewModel=viewModel,
                 favoritesViewModel = favoritesViewModel,
                 watchlistViewModel = watchlistViewModel
             )

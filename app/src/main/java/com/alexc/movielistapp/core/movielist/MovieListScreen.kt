@@ -18,15 +18,26 @@ fun MovieListScreen(
     navController: NavController,
     category: String
 ) {
+    var str="";
+    if(category=="28")
+        str="Action"
+    else if(category=="12")
+        str="Adventure"
+    else if(category=="16")
+        str="Animation"
+    else if(category=="27")
+        str="Horror"
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colors.background)
     ) {
+
         TopAppBar(
             title = {
                 Text(
-                    text = category.uppercase(),
+                    text = str.uppercase(),
                     fontFamily = OpenSans,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colors.primary

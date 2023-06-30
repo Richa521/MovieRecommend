@@ -30,28 +30,28 @@ import com.google.accompanist.flowlayout.SizeMode
 val categoriesList = arrayListOf<CategoryListItem>().apply {
     add(
         CategoryListItem(
-            id = "id",
+            id = "28",
             "Action",
             "https://images7.alphacoders.com/855/thumb-1920-855790.jpg"
         )
     )
     add(
         CategoryListItem(
-            id = "id",
+            id = "12",
             "Adventure",
             "https://www.magazine-hd.com/apps/wp/wp-content/uploads/2020/09/dune-destaque.jpg"
         )
     )
     add(
         CategoryListItem(
-            id = "id",
+            id = "16",
             "Animation",
             "https://www.ixpaper.com/wp-content/uploads/2021/07/luca-wallpaper-ixpaper-2.jpg"
         )
     )
     add(
         CategoryListItem(
-            id = "id",
+            id = "27",
             "Horror",
             "https://cm-santiago-do-cacem.pt/img/movies/89/what-order-you-should-watch-conjuring.jpg"
         )
@@ -106,7 +106,7 @@ fun CategoryItem(category: CategoryListItem, navController: NavController) {
             .padding(start = 5.dp, end = 5.dp, bottom = 10.dp)
             .clickable {
                 navController.navigate(
-                    "movie_list/${category.title.lowercase()}"
+                    "movie_list/${category.id.lowercase()}"
                 )
             },
         contentAlignment = Alignment.Center,

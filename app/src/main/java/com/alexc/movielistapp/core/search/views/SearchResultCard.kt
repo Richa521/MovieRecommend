@@ -17,6 +17,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.alexc.movielistapp.data.model.Result
 import com.alexc.movielistapp.data.models.MovieItem
 import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.ui.theme.OpenSans
@@ -25,7 +26,7 @@ import com.google.accompanist.coil.rememberCoilPainter
 @Composable
 fun SearchResultCard(
     navController: NavController,
-    movie: MovieListItem,
+    movie: Result,
 
 ) {
     Row(
@@ -40,7 +41,7 @@ fun SearchResultCard(
     ) {
 
         Image(
-            painter = rememberCoilPainter(request = movie.image),
+            painter = rememberCoilPainter(request = "https://image.tmdb.org/t/p/original"+movie.poster_path),
             contentDescription = movie.title,
             modifier = Modifier
                 .aspectRatio(1.7f, true)
