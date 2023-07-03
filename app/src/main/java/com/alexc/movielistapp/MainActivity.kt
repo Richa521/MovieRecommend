@@ -1,5 +1,6 @@
 package com.alexc.movielistapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -30,6 +31,11 @@ import com.alexc.movielistapp.favourites.PreferencesHelper
 import com.alexc.movielistapp.repository.MovieRepository
 import com.alexc.movielistapp.ui.theme.MovieListAppTheme
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -41,7 +47,8 @@ class MainActivity : ComponentActivity() {
     private val watchlistViewModel: WatchlistViewModel by viewModels()
      private val viewModel:MovieDetailsViewModel by viewModels()
     private lateinit var preferenceHelper: PreferencesHelper
-
+    val mainScope = MainScope()
+    @SuppressLint("CoroutineCreationDuringComposition")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -110,11 +117,16 @@ class MainActivity : ComponentActivity() {
 
                     composable("for_you_screen") { backStackEntry ->
                         ForYouScreen(navController = navController)
+                        val viewModel: ForYouViewModel = hiltViewModel()
+                        GlobalScope.launch(Dispatchers.IO) {
+                            try{
+                                    mainScope.launch {  viewModel.main() }
+                            }
+                            catch (e: IOException) {
+                                e.printStackTrace()
+                            }
+                        }
                     }
-
-
-
-
 
 
                     composable("favorites_screen") {

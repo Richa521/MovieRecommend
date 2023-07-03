@@ -17,6 +17,7 @@ import com.alexc.movielistapp.data.models.MovieItem
 import com.alexc.movielistapp.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -29,24 +30,36 @@ class ForYouViewModel @Inject constructor(
 
 
     var state by mutableStateOf(SearchState())
-
     private var searchJob: Job? = null
+    var rec_list_id: MutableList<Int> = mutableListOf()
+    var recommendations : List<String> = mutableListOf()
+//    val rec_movies=
 
+
+    // Usage example
+    suspend fun main() {
+        val makeMovieRecommendations= MakeMovieRecommendations()
+        val favoriteMovies = listOf("Bajrangi Bhaijaan", "Garv", "Race 3", "Wanted")
+
+//        recommendations = makeMovieRecommendations.makeRecommendationsRequest(favoriteMovies)
+        recommendations = listOf("Kabir Singh", "Padmaavat"," Queen"," Dangal", "Zindagi Na Milegi Dobara")
+        Log.i("recommendations","Here " + recommendations)
+    }
+    fun runLoop(){
+        for (item in recommendations) {
+            onSearchBackend(item)
+        }
+    }
     fun onSearchBackend(searchString: String) {
         state = state.copy(searchTerm = searchString)
-        searchJob?.cancel()
         searchJob = viewModelScope.launch {
-            delay(500L)
-            println("onSearchBacked has successfully")
             searchMovieBackend()
-
         }
     }
 
 
     private suspend fun searchMovieBackend() {
         state = state.copy(isLoading = true)
-        println(state.searchTerm)
         val result = repository.getMoviesBySearch(searchTerm = state.searchTerm)
         when (result) {
             is Resource.Success -> {
@@ -56,6 +69,8 @@ class ForYouViewModel @Inject constructor(
                     movies = result.data ?: emptyList()
                 )
                 println("Sucess")
+                val id=state.movies[0].id
+                rec_list_id.add(id)
             }
 
             is Resource.Error -> {
@@ -67,4 +82,5 @@ class ForYouViewModel @Inject constructor(
             }
         }
     }
+
 }

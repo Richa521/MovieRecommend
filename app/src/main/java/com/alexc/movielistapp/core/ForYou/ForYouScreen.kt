@@ -18,12 +18,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Create
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,11 +49,22 @@ import androidx.navigation.NavController
 import com.alexc.movielistapp.core.bottombar.BottomBar
 import com.alexc.movielistapp.core.search.SearchViewModel
 import com.alexc.movielistapp.core.search.views.SearchInfoView
+import com.alexc.movielistapp.core.search.views.SearchResultCard
 import com.alexc.movielistapp.core.watchlist.MovieListItem
 import com.alexc.movielistapp.data.models.MovieListItem
+import com.alexc.movielistapp.data.remote.MoviesApi
+import com.alexc.movielistapp.repository.MovieRepository
 import com.alexc.movielistapp.ui.theme.OpenSans
 import com.google.accompanist.coil.rememberCoilPainter
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import java.io.IOException
 
+@OptIn(DelicateCoroutinesApi::class)
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ForYouScreen(
@@ -65,20 +79,6 @@ fun ForYouScreen(
 //        }
     val state = viewModel.state
 
-    val movieList = listOf("Phantom", "Flash", "Bahubali", "Spiderman", "Padmavati")
-    viewModel.onSearchBackend("Phantom")
-    val rec_list_id: List<Int> = listOf()
-
-
-//        if(state.movies.isEmpty()){
-//            Log.i("isEmpty","Emplty List")
-//        }
-//        else if (state.isError){
-//            SearchInfoView()
-//        }
-//        else if(state.isLoading){
-//            CircularProgressIndicator(color = MaterialTheme.colors.primary)
-//        }
 
 
 
@@ -101,10 +101,33 @@ fun ForYouScreen(
         },
         modifier = Modifier.fillMaxSize()
     ) {
-//        if (nearestMovies.isNotEmpty()) {
+        Button(onClick = {
+            viewModel.runLoop()
+        }) {
+
+        }
+        when {
+            state.isLoading -> {
+                CircularProgressIndicator(color = MaterialTheme.colors.primary)
+            }
+            state.isError -> {
+                SearchInfoView()
+            }
+            state.movies.isEmpty() -> {
+                if (state.searchTerm.isEmpty()) {
+                    SearchInfoView(
+                        icon = Icons.Rounded.Create,
+                        message = "Try to type something"
+                    )
+                } else {
+                    SearchInfoView(message = "No movies found")
+                }
+            }
+        }
+//        if (viewModel) {
 //            LazyColumn {
-//                items(nearestMovies) { movie ->
-//                    Text(text = movie.title)
+//                items(viewModel.rec_list_id) { item ->
+//                    MovieListItem(navController = navController, movie =  )
 //                }
 //
 //            }
@@ -124,3 +147,4 @@ fun ForYouScreen(
     }
 
 }
+
