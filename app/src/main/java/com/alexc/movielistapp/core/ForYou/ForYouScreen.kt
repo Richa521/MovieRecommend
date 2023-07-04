@@ -3,6 +3,7 @@ package com.alexc.movielistapp.core.ForYou
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.CircularProgressIndicator
@@ -36,6 +38,7 @@ import androidx.compose.runtime.remember
 
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -46,11 +49,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.alexc.movielistapp.common.Resource
 import com.alexc.movielistapp.core.bottombar.BottomBar
+import com.alexc.movielistapp.core.movielist.MovieListCard
 import com.alexc.movielistapp.core.search.SearchViewModel
 import com.alexc.movielistapp.core.search.views.SearchInfoView
 import com.alexc.movielistapp.core.search.views.SearchResultCard
 import com.alexc.movielistapp.core.watchlist.MovieListItem
+import com.alexc.movielistapp.data.model.MovieDetails
+import com.alexc.movielistapp.data.model.Result
 import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.data.remote.MoviesApi
 import com.alexc.movielistapp.repository.MovieRepository
@@ -71,80 +78,58 @@ fun ForYouScreen(
     navController: NavController,
     viewModel:ForYouViewModel = hiltViewModel()
 ) {
-//    val state = viewModel.state
-//        val nearestMovies = remember {
-//            val args = navController.currentBackStackEntry?.arguments
-//            val movieTitles = args?.getString("nearestMovies")?.split(",") ?: emptyList()
-//            movieTitles.map { Movie(it) }
-//        }
-    val state = viewModel.state
-
-
-
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = "For You",
-                        fontFamily = OpenSans,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.primary
-                    )
-                },
-                backgroundColor = MaterialTheme.colors.surface,
-            )
-        },
-        bottomBar = {
-            BottomBar(navController)
-        },
-        modifier = Modifier.fillMaxSize()
-    ) {
-        Button(onClick = {
-            viewModel.runLoop()
-        }) {
-
-        }
-        when {
-            state.isLoading -> {
-                CircularProgressIndicator(color = MaterialTheme.colors.primary)
+        viewModel.runLoop()
+    val movieList = viewModel.rec_list_id
+    Log.d("Aniket", viewModel.rec_list_id.toString())
+    LazyColumn(contentPadding = PaddingValues(16.dp)) {
+        if (!movieList.isNullOrEmpty()) {
+            val itemCount = if (movieList!!.size % 2 == 0) {
+                movieList!!.size / 2
+            } else {
+                movieList!!.size / 2 + 1
             }
-            state.isError -> {
-                SearchInfoView()
-            }
-            state.movies.isEmpty() -> {
-                if (state.searchTerm.isEmpty()) {
-                    SearchInfoView(
-                        icon = Icons.Rounded.Create,
-                        message = "Try to type something"
-                    )
-                } else {
-                    SearchInfoView(message = "No movies found")
-                }
+            items(itemCount) {
+                MovieListRow(rowIndex = it, movies = movieList, navController = navController)
             }
         }
-//        if (viewModel) {
-//            LazyColumn {
-//                items(viewModel.rec_list_id) { item ->
-//                    MovieListItem(navController = navController, movie =  )
-//                }
-//
-//            }
-//        } else {
-//            Box(
-//                modifier = Modifier.fillMaxSize(),
-//                contentAlignment = Alignment.Center
-//            ) {
-//                Text(
-//                    text = "No movies available",
-//                    fontSize = 18.sp,
-//                    fontWeight = FontWeight.Bold,
-//                    color = MaterialTheme.colors.onBackground
-//                )
-//            }
-//        }
     }
 
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()
+    ) {
+
+            CircularProgressIndicator(color = MaterialTheme.colors.primary)
+
+
+    }
 }
 
+
+@Composable
+fun MovieListRow(
+    rowIndex: Int,
+    movies: List<Result>,
+    navController: NavController
+) {
+    Column {
+        Row {
+            MovieListCard(
+                movieItem = movies[rowIndex * 2],
+                navController = navController,
+                modifier = Modifier.weight(1f)
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            if (movies.size >= rowIndex * 2 + 2) {
+                MovieListCard(
+                    movieItem = movies[rowIndex * 2 + 1],
+                    navController = navController,
+                    modifier = Modifier.weight(1f)
+                )
+            } else {
+                Spacer(modifier = Modifier.weight(1f))
+            }
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+    }
+}
