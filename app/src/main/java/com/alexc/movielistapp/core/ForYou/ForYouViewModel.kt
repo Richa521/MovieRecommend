@@ -50,10 +50,11 @@ class ForYouViewModel @Inject constructor(
 
     }
 
-    fun runLoop() {
-        for (item in recommendations) {
+   fun runLoop( list12:List<String>  ) :MutableList<Result>{
+        for (item in list12) {
             onSearchBackend(item)
         }
+       return rec_list_id
        // rec_list_id1.addAll(rec_list_id)
     }
 

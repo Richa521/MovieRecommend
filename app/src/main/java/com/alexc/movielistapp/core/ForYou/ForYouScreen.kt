@@ -79,8 +79,14 @@ fun ForYouScreen(
     viewModel:ForYouViewModel = hiltViewModel(),
     viewModel1:FavoritesViewModel= hiltViewModel()
 ) {
-    viewModel.runLoop()
-    val movieList =viewModel.rec_list_id
+   val favoritelist=viewModel1.favoriteMovies.value
+  val stringlist:MutableList<String> = arrayListOf()
+    for(i in favoritelist!!)
+    {
+        stringlist.add(i.title)
+    }
+
+    val movieList =viewModel.runLoop(stringlist)
 
     Log.d("Anike",movieList.toString())
 
@@ -104,7 +110,7 @@ fun ForYouScreen(
         modifier = Modifier.fillMaxSize()
     ) {
 
-            CircularProgressIndicator(color = MaterialTheme.colors.primary)
+           // CircularProgressIndicator(color = MaterialTheme.colors.primary)
 
 
     }
