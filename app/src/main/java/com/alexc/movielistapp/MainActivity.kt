@@ -116,6 +116,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     composable("for_you_screen") { backStackEntry ->
+
                         ForYouScreen(navController = navController)
                         val viewModel: ForYouViewModel = hiltViewModel()
                         GlobalScope.launch(Dispatchers.IO) {

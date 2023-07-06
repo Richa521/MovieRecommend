@@ -16,7 +16,7 @@ class PreferencesHelper(context: Context) {
         Context.MODE_PRIVATE
     )
 
-    fun saveFavorites(favorites:Call.Details) {
+    fun saveFavorites(favorites:List<MovieDetails>) {
         val gson = Gson()
         val jsonFavorites = gson.toJson(favorites)
         preferences.edit().putString("favorites", jsonFavorites).apply()

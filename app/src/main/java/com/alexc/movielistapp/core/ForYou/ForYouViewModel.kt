@@ -14,6 +14,7 @@ import com.alexc.movielistapp.core.search.SearchViewModel
 import com.alexc.movielistapp.data.model.MovieDetails
 import com.alexc.movielistapp.data.model.Result
 import com.alexc.movielistapp.data.models.MovieItem
+import com.alexc.movielistapp.favourites.FavoritesViewModel
 import com.alexc.movielistapp.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
@@ -22,7 +23,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.nio.file.Files.list
 import javax.inject.Inject
-
 
 @HiltViewModel
 class ForYouViewModel @Inject constructor(
@@ -42,12 +42,12 @@ class ForYouViewModel @Inject constructor(
     // Usage example
     suspend fun main() {
         val makeMovieRecommendations = MakeMovieRecommendations()
-        val favoriteMovies = listOf("Bajrangi Bhaijaan", "Garv", "Race 3", "Wanted")
 
-//        recommendations = makeMovieRecommendations.makeRecommendationsRequest(favoriteMovies)
-        recommendations =
-            listOf("Kabir Singh", "Padmaavat", " Queen", " Dangal", "Zindagi Na Milegi Dobara")
+        val favoriteMovies = listOf("Bajrangi Bhaijaan", "Garv", "Race 3", "Wanted")
+         recommendations = makeMovieRecommendations.makeRecommendationsRequest(favoriteMovies)
+      // recommendations = listOf("Kabir Singh", "Padmaavat", " Queen", " Dangal", "Zindagi Na Milegi Dobara")
         Log.i("recommendations", "Here " + recommendations)
+
     }
 
     fun runLoop() {
@@ -77,22 +77,22 @@ class ForYouViewModel @Inject constructor(
                     movies = result.data ?: emptyList()
                 )
                 println("Sucess")
-              //  val id = state.movies[0].overview
+//                val id=state.movies[0].id
+//                rec_list_id.add(id)
                 for(i in state.movies)
                 {
                     if(rec_list_id.contains(i)==true)
                     {
+            break
 
                     }
                     else
                     {
-                        if(i.genre_ids.isEmpty()==false && i.poster_path!=null)
-                        {
-                            rec_list_id.add(i)
-                        }
+                       rec_list_id.add(i)
+                        break
                     }
                 }
-                Log.d("Aniket", rec_list_id.toString())
+               // Log.d("Aniket", rec_list_id.toString())
 
             }
 

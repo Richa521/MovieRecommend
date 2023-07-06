@@ -26,7 +26,7 @@ class FavoritesViewModel @Inject constructor(
     fun addToFavorites(movie: MovieDetails) {
         val updatedFavorites = (_favoriteMovies.value ?: emptyList()) + movie
         _favoriteMovies.value = updatedFavorites
-      //  preferenceHelper.saveFavorites(updatedFavorites)
+        preferenceHelper.saveFavorites(updatedFavorites)
     }
     fun setFavorites(favorites: List<MovieDetails>) {
         _favoriteMovies.value = favorites
