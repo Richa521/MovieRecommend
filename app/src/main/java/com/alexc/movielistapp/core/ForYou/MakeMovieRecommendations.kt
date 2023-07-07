@@ -18,7 +18,7 @@ import java.io.IOException
 
 class MakeMovieRecommendations {
 
-    suspend fun makeRecommendationsRequest (favoriteMovies: List<String>): List<String> {
+     suspend fun makeRecommendationsRequest (favoriteMovies: List<String>): List<String> {
         val client = OkHttpClient()
         val msg =
             "You are a professional movie recommender based on the given list of movies suggest me 5 more movies with just comma seperated format without any prefacing or introductory text givenlist is $favoriteMovies"

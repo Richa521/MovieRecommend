@@ -26,6 +26,7 @@ import com.alexc.movielistapp.favourites.FavoritesScreen
 import com.alexc.movielistapp.core.settings.SettingsScreen
 import com.alexc.movielistapp.core.watchlist.WatchlistScreen
 import com.alexc.movielistapp.core.watchlist.WatchlistViewModel
+import com.alexc.movielistapp.data.model.Result
 import com.alexc.movielistapp.favourites.FavoritesViewModel
 import com.alexc.movielistapp.favourites.PreferencesHelper
 import com.alexc.movielistapp.repository.MovieRepository
@@ -40,9 +41,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
+    var movie:MutableList<Result> = arrayListOf()
     @Inject
     lateinit var repository: MovieRepository
+
     private val favoritesViewModel: FavoritesViewModel by viewModels()
     private val watchlistViewModel: WatchlistViewModel by viewModels()
      private val viewModel:MovieDetailsViewModel by viewModels()
@@ -117,22 +119,36 @@ class MainActivity : ComponentActivity() {
 
                     composable("for_you_screen") { backStackEntry ->
 
-                        ForYouScreen(navController = navController)
+
                         val viewModel: ForYouViewModel = hiltViewModel()
+                        val viewModel1:FavoritesViewModel= hiltViewModel()
                         GlobalScope.launch(Dispatchers.IO) {
                             try{
-                                    mainScope.launch {  viewModel.main() }
+                                    mainScope.launch {
+
+                                        val favoritelist=viewModel1.favoriteMovies.value
+                                        val stringlist:MutableList<String> = arrayListOf()
+                                        for(i in favoritelist!!)
+                                        {
+                                            stringlist.add(i.title)
+                                        }
+
+                                        val movieq1=viewModel.runLoop(stringlist)
+                                    movie= movieq1.data!!
+                                    }
                             }
                             catch (e: IOException) {
                                 e.printStackTrace()
                             }
                         }
+                        ForYouScreen(navController = navController)
                     }
 
 
                     composable("favorites_screen") {
                         FavoritesScreen(
                             navController = navController,
+
                             favoritesViewModel = favoritesViewModel,
                             preferenceHelper = preferenceHelper
                         )

@@ -63,12 +63,7 @@ import com.alexc.movielistapp.favourites.FavoritesViewModel
 import com.alexc.movielistapp.repository.MovieRepository
 import com.alexc.movielistapp.ui.theme.OpenSans
 import com.google.accompanist.coil.rememberCoilPainter
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.io.IOException
 
 @OptIn(DelicateCoroutinesApi::class)
@@ -86,9 +81,13 @@ fun ForYouScreen(
         stringlist.add(i.title)
     }
 
-    val movieList =viewModel.runLoop(stringlist)
 
-    Log.d("Anike",movieList.toString())
+       var  movieList1=  produceState<Resource<MutableList<Result>>>(initialValue = Resource.Loading()) {
+            value = viewModel.runLoop(stringlist)
+        }.value
+var movieList=movieList1.data
+
+    Log.d("Aniket",movieList.toString())
 
    // val movieList = viewModel.rec_list_id
    // Log.d("Aniket", viewModel.rec_list_id.toString())
@@ -109,7 +108,12 @@ fun ForYouScreen(
         contentAlignment = Alignment.Center,
         modifier = Modifier.fillMaxSize()
     ) {
+        if (movieList1 is Resource.Loading) {
+            CircularProgressIndicator(color = MaterialTheme.colors.primary)
 
+        } else if (movieList1 is Resource.Error) {
+            // TODO
+        }
            // CircularProgressIndicator(color = MaterialTheme.colors.primary)
 
 

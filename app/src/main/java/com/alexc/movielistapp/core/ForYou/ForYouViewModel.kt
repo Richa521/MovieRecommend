@@ -17,10 +17,8 @@ import com.alexc.movielistapp.data.models.MovieItem
 import com.alexc.movielistapp.favourites.FavoritesViewModel
 import com.alexc.movielistapp.repository.MovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import java.lang.Exception
 import java.nio.file.Files.list
 import javax.inject.Inject
 
@@ -40,24 +38,43 @@ class ForYouViewModel @Inject constructor(
 
 
     // Usage example
-    suspend fun main() {
-        val makeMovieRecommendations = MakeMovieRecommendations()
+//    suspend fun main() {
+//        val makeMovieRecommendations = MakeMovieRecommendations()
+//
+//        val favoriteMovies = listOf("Bajrangi Bhaijaan", "Garv", "Race 3", "Wanted")
+//        // recommendations = makeMovieRecommendations.makeRecommendationsRequest(favoriteMovies)
+//      // recommendations = listOf("Kabir Singh", "Padmaavat", " Queen", " Dangal", "Zindagi Na Milegi Dobara")
+//        Log.i("recommendations", "Here " + recommendations)
+//
+//    }
 
-        val favoriteMovies = listOf("Bajrangi Bhaijaan", "Garv", "Race 3", "Wanted")
-         recommendations = makeMovieRecommendations.makeRecommendationsRequest(favoriteMovies)
-      // recommendations = listOf("Kabir Singh", "Padmaavat", " Queen", " Dangal", "Zindagi Na Milegi Dobara")
-        Log.i("recommendations", "Here " + recommendations)
+    suspend fun runLoop(list12:List<String>  ) :Resource<MutableList<Result>>{
 
-    }
+         val response=try {
+           research(list12)
+         }
+         catch (e:Exception)
+         {
+             return Resource.Error(e.stackTraceToString())
 
-   fun runLoop( list12:List<String>  ) :MutableList<Result>{
-        for (item in list12) {
-            onSearchBackend(item)
-        }
-       return rec_list_id
+         }
+
+       return     Resource.Success(response)
+
+        Log.d("Anike",rec_list_id.toString())
        // rec_list_id1.addAll(rec_list_id)
     }
+suspend fun research(list12: List<String>):MutableList<Result>
+{
+    val makeMovieRecommendations = MakeMovieRecommendations()
+    recommendations = makeMovieRecommendations.makeRecommendationsRequest(list12)
 
+
+    for (item in recommendations) {
+        onSearchBackend(item)
+    }
+    return rec_list_id
+}
     fun onSearchBackend(searchString: String) {
         state = state.copy(searchTerm = searchString)
         searchJob = viewModelScope.launch {
