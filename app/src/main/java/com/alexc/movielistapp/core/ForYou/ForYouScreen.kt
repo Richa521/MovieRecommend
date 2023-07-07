@@ -3,6 +3,7 @@ package com.alexc.movielistapp.core.ForYou
 import android.annotation.SuppressLint
 import android.telecom.Call
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -67,7 +68,7 @@ import kotlinx.coroutines.*
 import java.io.IOException
 
 @OptIn(DelicateCoroutinesApi::class)
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
+
 @Composable
 fun ForYouScreen(
     navController: NavController,
@@ -112,7 +113,7 @@ var movieList=movieList1.data
             CircularProgressIndicator(color = MaterialTheme.colors.primary)
 
         } else if (movieList1 is Resource.Error) {
-            // TODO
+Log.d("er","Error")
         }
            // CircularProgressIndicator(color = MaterialTheme.colors.primary)
 

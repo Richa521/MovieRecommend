@@ -47,6 +47,7 @@ class MainActivity : ComponentActivity() {
 
     private val favoritesViewModel: FavoritesViewModel by viewModels()
     private val watchlistViewModel: WatchlistViewModel by viewModels()
+
      private val viewModel:MovieDetailsViewModel by viewModels()
     private lateinit var preferenceHelper: PreferencesHelper
     val mainScope = MainScope()
@@ -120,28 +121,8 @@ class MainActivity : ComponentActivity() {
                     composable("for_you_screen") { backStackEntry ->
 
 
-                        val viewModel: ForYouViewModel = hiltViewModel()
-                        val viewModel1:FavoritesViewModel= hiltViewModel()
-                        GlobalScope.launch(Dispatchers.IO) {
-                            try{
-                                    mainScope.launch {
-
-                                        val favoritelist=viewModel1.favoriteMovies.value
-                                        val stringlist:MutableList<String> = arrayListOf()
-                                        for(i in favoritelist!!)
-                                        {
-                                            stringlist.add(i.title)
-                                        }
-
-                                        val movieq1=viewModel.runLoop(stringlist)
-                                    movie= movieq1.data!!
-                                    }
-                            }
-                            catch (e: IOException) {
-                                e.printStackTrace()
-                            }
-                        }
-                        ForYouScreen(navController = navController)
+                        val foryouviewModel:ForYouViewModel by viewModels()
+                        ForYouScreen(navController = navController, viewModel = foryouviewModel, viewModel1 = favoritesViewModel)
                     }
 
 

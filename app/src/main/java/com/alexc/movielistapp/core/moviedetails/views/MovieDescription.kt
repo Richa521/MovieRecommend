@@ -80,14 +80,15 @@ import com.alexc.movielistapp.ui.theme.OpenSans
     }
 
 var str:String=""
-for(i in movieItem.genres)
-{
-    if(i!=null)
-    str=str+i.name+","
-}
-     if(str!=null)
+    if(movieItem.genres.isNotEmpty()) {
+        for (i in movieItem.genres) {
+            if (i != null)
+                str = str + i.name + ","
+        }
+    }
+    
     Text(
-        movieItem.homepage + "  .  " + str.substring(0,str.length-1)+ "  .  " + movieItem.runtime,
+        movieItem.homepage + "  .  " + str+ "  .  " + movieItem.runtime,
         fontSize = 12.sp,
         color = MaterialTheme.colors.primary,
         fontFamily = OpenSans,
