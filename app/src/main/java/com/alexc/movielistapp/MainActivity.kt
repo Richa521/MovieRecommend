@@ -118,7 +118,7 @@ class MainActivity : ComponentActivity() {
                         SettingsScreen(navController)
                     }
 
-                    composable("for_you_screen") { backStackEntry ->
+                    composable("for_you_screen") {
 
 
                         val foryouviewModel:ForYouViewModel by viewModels()

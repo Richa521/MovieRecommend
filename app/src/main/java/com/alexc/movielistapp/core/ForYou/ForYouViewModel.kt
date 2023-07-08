@@ -68,11 +68,14 @@ suspend fun research(list12: List<String>):MutableList<Result>
 {
     val makeMovieRecommendations = MakeMovieRecommendations()
     recommendations = makeMovieRecommendations.makeRecommendationsRequest(list12)
-
-
-    for (item in recommendations) {
-        onSearchBackend(item)
-    }
+    Log.i("recommendations", "Here " + recommendations)
+    Log.i("recommendations", "Here " + list12)
+ rec_list_id.clear()
+   for(i in recommendations)
+   {
+       val listit=repository.getMoviesBySearch(i)
+       rec_list_id.add(listit.data!![0])
+   }
     return rec_list_id
 }
     fun onSearchBackend(searchString: String) {
@@ -101,9 +104,10 @@ suspend fun research(list12: List<String>):MutableList<Result>
                 {
                     if(rec_list_id.contains(i)==true)
                     {
-            break
+                            break
 
                     }
+
                     else
                     {
                        rec_list_id.add(i)
