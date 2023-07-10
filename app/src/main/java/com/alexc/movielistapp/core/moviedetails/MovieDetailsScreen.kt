@@ -220,7 +220,7 @@ fun MovieDetailStateWrapper(
 @Composable
 fun MovieDetailsScreenPreview() {
     val navController = rememberNavController()
-    val movieId = "123" // Replace with your desired movie ID
+    val movieId = "123"// Replace with your desired movie ID
     val viewModel: MovieDetailsViewModel = viewModel() // Provide your own ViewModel
 
     MovieDetailsScreen(navController = navController, movieId = movieId, viewModel = viewModel)

@@ -13,8 +13,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.alexc.movielistapp.common.Resource
 import com.alexc.movielistapp.data.model.Result
-import com.alexc.movielistapp.data.model.ResultX
-import com.alexc.movielistapp.data.models.MovieListItem
 
 @Composable
 fun MovieList(

@@ -17,8 +17,9 @@ class WatchlistViewModel @Inject constructor(
     val watchlistMovies: LiveData<List<MovieDetails>> get() = _watchlistMovies
 
     init {
-        _watchlistMovies.value = preferenceHelper.getWatchlist()
+        _watchlistMovies.value = preferenceHelper.getWatchlist().filter { it.genres is List<*> }
     }
+
 
     fun addToWatchlist(movie: MovieDetails) {
         val updatedWatchlist = (_watchlistMovies.value ?: emptyList()) + movie

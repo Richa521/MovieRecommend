@@ -3,9 +3,6 @@ package com.alexc.movielistapp.repository
 import com.alexc.movielistapp.common.Resource
 import com.alexc.movielistapp.data.model.MovieDetails
 import com.alexc.movielistapp.data.model.Result
-import com.alexc.movielistapp.data.model.ResultX
-import com.alexc.movielistapp.data.models.MovieItem
-import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.data.remote.MoviesApi
 import dagger.hilt.android.scopes.ActivityScoped
 import javax.inject.Inject

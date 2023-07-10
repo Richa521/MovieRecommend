@@ -9,6 +9,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Cancel
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -47,7 +49,9 @@ fun FavoritesScreen(
     preferenceHelper: PreferencesHelper
 
 ) {
+
     val favoriteMovies = preferenceHelper.getFavorites()
+    val refreshScreen = remember { mutableStateOf(false) }
     Scaffold(
         topBar = {
             TopAppBar(
@@ -91,14 +95,26 @@ fun FavoritesScreen(
             } else {
                 LazyColumn(contentPadding = PaddingValues(16.dp)) {
                     items(favoritesViewModel.favoriteMovies.value!!) { movie ->
-                       com.alexc.movielistapp.favourites.MovieListItem(movie = movie, navController = navController)
+                        MovieListItem(
+                            movie = movie,
+                            navController = navController,
+                            onCancelClick = {
+                                favoritesViewModel.removeFromFavorites(movie)
+                                refreshScreen.value = true // Trigger screen refresh
+                            }
+                        )
                     }
                 }
+
             }
         }
     }
-    LaunchedEffect(favoriteMovies) {
-       // preferenceHelper.saveFavorites(favoriteMovies)
+    LaunchedEffect(refreshScreen.value) {
+        if (refreshScreen.value) {
+            // Refresh screen
+            favoritesViewModel.setFavorites(preferenceHelper.getFavorites())
+            refreshScreen.value = false
+        }
     }
 }
 
@@ -106,7 +122,8 @@ fun FavoritesScreen(
 fun MovieListItem(
     movie: MovieDetails,
     navController: NavController,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onCancelClick: () -> Unit
 ) {
     Card(
         modifier = modifier
@@ -117,7 +134,7 @@ fun MovieListItem(
     ) {
         Row(modifier = Modifier.padding(16.dp)) {
             Image(
-                painter = rememberCoilPainter(request ="https://image.tmdb.org/t/p/original"+ movie.poster_path),
+                painter = rememberCoilPainter(request = "https://image.tmdb.org/t/p/original" + movie.poster_path),
                 contentDescription = "",
                 modifier = Modifier
                     .size(80.dp)
@@ -126,7 +143,7 @@ fun MovieListItem(
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            Column {
+            Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = movie.title,
                     fontSize = 16.sp,
@@ -155,9 +172,21 @@ fun MovieListItem(
                     overflow = TextOverflow.Ellipsis
                 )
             }
+
+            IconButton(
+                onClick = onCancelClick,
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Cancel,
+                    contentDescription = "Cancel",
+                    tint = MaterialTheme.colors.onSurface
+                )
+            }
         }
     }
 }
+
 
 fun navigateToMovieDetails(navController: NavController, movieId: String) {
     navController.navigate("movie_details_screen/$movieId") {

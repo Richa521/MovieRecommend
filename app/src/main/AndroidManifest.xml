@@ -13,7 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieListApp"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".MountaineeringCourse"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

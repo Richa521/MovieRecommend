@@ -9,6 +9,7 @@ import android.telecom.Call
 import com.alexc.movielistapp.data.model.MovieDetails
 import com.alexc.movielistapp.data.model.Result
 import com.google.gson.Gson
+import com.google.gson.JsonSyntaxException
 
 
 class PreferencesHelper(context: Context) {
@@ -27,12 +28,18 @@ class PreferencesHelper(context: Context) {
     fun getFavorites(): List<MovieDetails> {
         val gson = Gson()
         val jsonFavorites = preferences.getString("favorites", null)
-        return if (jsonFavorites != null) {
-            gson.fromJson(jsonFavorites, Array<MovieDetails>::class.java).toList()
+        return if (!jsonFavorites.isNullOrEmpty()) {
+            try {
+                val movieItems = gson.fromJson(jsonFavorites, Array<MovieDetails>::class.java)
+                movieItems.filter { it.genres is List<*> }
+            } catch (e: JsonSyntaxException) {
+                emptyList()
+            }
         } else {
             emptyList()
         }
     }
+
 
     fun saveWatchlist(watchlist: List<MovieDetails>) {
         val gson = Gson()
@@ -43,12 +50,18 @@ class PreferencesHelper(context: Context) {
     fun getWatchlist(): List<MovieDetails> {
         val gson = Gson()
         val jsonWatchlist = preferences.getString("watchlist", null)
-        return if (jsonWatchlist != null) {
-            gson.fromJson(jsonWatchlist, Array<MovieDetails>::class.java).toList()
+        return if (!jsonWatchlist.isNullOrEmpty()) {
+            try {
+                val movieItems = gson.fromJson(jsonWatchlist, Array<MovieDetails>::class.java)
+                movieItems.filter { it.genres is List<*> }
+            } catch (e: JsonSyntaxException) {
+                emptyList()
+            }
         } else {
             emptyList()
         }
     }
+
     fun saveRecommendations(recommendations:List<Result>) {
         val gson = Gson()
         val jsonRecommendations = gson.toJson(recommendations)

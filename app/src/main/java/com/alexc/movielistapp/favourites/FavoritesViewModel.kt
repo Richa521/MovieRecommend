@@ -31,4 +31,13 @@ class FavoritesViewModel @Inject constructor(
     fun setFavorites(favorites: List<MovieDetails>) {
         _favoriteMovies.value = favorites
     }
+
+    fun removeFromFavorites(movie: MovieDetails) {
+        val updatedFavorites = _favoriteMovies.value?.toMutableList()
+        updatedFavorites?.remove(movie)
+        _favoriteMovies.value = updatedFavorites
+        preferenceHelper.saveFavorites(updatedFavorites ?: emptyList())
+    }
+
+
 }
