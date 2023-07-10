@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.telecom.Call
 import com.alexc.movielistapp.data.model.MovieDetails
+import com.alexc.movielistapp.data.model.Result
 import com.google.gson.Gson
 
 
@@ -15,11 +16,12 @@ class PreferencesHelper(context: Context) {
         "FavoritesPreferences",
         Context.MODE_PRIVATE
     )
-
+    val prefs = PRefs(context)
     fun saveFavorites(favorites:List<MovieDetails>) {
         val gson = Gson()
         val jsonFavorites = gson.toJson(favorites)
         preferences.edit().putString("favorites", jsonFavorites).apply()
+        prefs.favouritesChange = 1
     }
 
     fun getFavorites(): List<MovieDetails> {
@@ -47,7 +49,22 @@ class PreferencesHelper(context: Context) {
             emptyList()
         }
     }
+    fun saveRecommendations(recommendations:List<Result>) {
+        val gson = Gson()
+        val jsonRecommendations = gson.toJson(recommendations)
+        preferences.edit().putString("recommendations", jsonRecommendations).apply()
+        prefs.favouritesChange = 1
+    }
 
+    fun getRecommendations(): List<Result> {
+        val gson = Gson()
+        val jsonRecommendations = preferences.getString("recommendations", null)
+        return if (jsonRecommendations != null) {
+            gson.fromJson(jsonRecommendations, Array<Result>::class.java).toList()
+        } else {
+            emptyList()
+        }
+    }
     fun saveSavedMovieIds(savedMovieIds: List<String>) {
         val gson = Gson()
         val jsonSavedMovieIds = gson.toJson(savedMovieIds)

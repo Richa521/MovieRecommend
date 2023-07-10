@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
@@ -122,7 +123,7 @@ class MainActivity : ComponentActivity() {
 
 
                         val foryouviewModel:ForYouViewModel by viewModels()
-                        ForYouScreen(navController = navController, viewModel = foryouviewModel, viewModel1 = favoritesViewModel)
+                        ForYouScreen(navController = navController, viewModel = foryouviewModel, viewModel1 = favoritesViewModel, context = LocalContext.current)
                     }
 
 

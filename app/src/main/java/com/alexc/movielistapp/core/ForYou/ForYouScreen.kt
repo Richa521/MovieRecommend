@@ -1,6 +1,7 @@
 package com.alexc.movielistapp.core.ForYou
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.telecom.Call
 import android.util.Log
 import android.widget.Toast
@@ -49,6 +50,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.alexc.movielistapp.common.Resource
 import com.alexc.movielistapp.core.bottombar.BottomBar
+import com.alexc.movielistapp.core.movielist.MovieListRow
 
 import com.alexc.movielistapp.core.search.SearchViewModel
 import com.alexc.movielistapp.core.search.views.SearchInfoView
@@ -61,6 +63,7 @@ import com.alexc.movielistapp.data.models.MovieListItem
 import com.alexc.movielistapp.data.remote.MoviesApi
 import com.alexc.movielistapp.favourites.FavoriteMovie
 import com.alexc.movielistapp.favourites.FavoritesViewModel
+import com.alexc.movielistapp.favourites.PRefs
 import com.alexc.movielistapp.repository.MovieRepository
 import com.alexc.movielistapp.ui.theme.OpenSans
 import com.google.accompanist.coil.rememberCoilPainter
@@ -73,26 +76,59 @@ import java.io.IOException
 fun ForYouScreen(
     navController: NavController,
     viewModel:ForYouViewModel = hiltViewModel(),
-    viewModel1:FavoritesViewModel= hiltViewModel()
+    viewModel1:FavoritesViewModel= hiltViewModel(),
+    context : Context
 ) {
-   val favoritelist=viewModel1.favoriteMovies.value
-  val stringlist:MutableList<String> = arrayListOf()
-    for(i in favoritelist!!)
-    {
+    val prefs = PRefs(context)
+    val favoritelist = viewModel1.favoriteMovies.value
+    val stringlist: MutableList<String> = arrayListOf()
+    val movieList: MutableList<Result>?
+
+    for (i in favoritelist!!) {
         stringlist.add(i.title)
+    }
+    if (prefs.favouritesChange == 1) {
+        val movieList1 =
+            produceState<Resource<MutableList<Result>>>(initialValue = Resource.Loading()) {
+                value = viewModel.runLoop(stringlist)
+            }.value
+        movieList = movieList1.data
+
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if (movieList1 is Resource.Loading) {
+                CircularProgressIndicator(color = MaterialTheme.colors.primary)
+
+            } else if (movieList1 is Resource.Error) {
+                Log.d("er", "Error")
+            }
+        }
+
+    }
+
+    else{
+                    movieList = viewModel.recommendedMovies.value as? MutableList<Result>?
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = Modifier.fillMaxSize()
+        ) {
+            if (movieList.isNullOrEmpty()) {
+                Text(text = "No movies in list now")
+            } else {
+                // Render the movie list
+            }
+        }
     }
 
 
-       var  movieList1=  produceState<Resource<MutableList<Result>>>(initialValue = Resource.Loading()) {
-            value = viewModel.runLoop(stringlist)
-        }.value
-var movieList=movieList1.data
 
-    Log.d("Aniket",movieList.toString())
 
-   // val movieList = viewModel.rec_list_id
-   // Log.d("Aniket", viewModel.rec_list_id.toString())
+
+
     LazyColumn(contentPadding = PaddingValues(16.dp)) {
+
         if (!movieList.isNullOrEmpty()) {
             val itemCount = if (movieList!!.size % 2 == 0) {
                 movieList!!.size / 2
@@ -103,49 +139,38 @@ var movieList=movieList1.data
                 MovieListRow(rowIndex = it, movies = movieList, navController = navController)
             }
         }
-    }
-
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        if (movieList1 is Resource.Loading) {
-            CircularProgressIndicator(color = MaterialTheme.colors.primary)
-
-        } else if (movieList1 is Resource.Error) {
-Log.d("er","Error")
         }
-           // CircularProgressIndicator(color = MaterialTheme.colors.primary)
 
 
-    }
-}
 
 
-@Composable
-fun MovieListRow(
-    rowIndex: Int,
-    movies: List<Result>,
-    navController: NavController
-) {
-    Column {
-        Row {
-            MovieListCard_2(
-                movieItem = movies[rowIndex * 2],
-                navController = navController,
-                modifier = Modifier.weight(1f)
-            )
-            Spacer(modifier = Modifier.width(16.dp))
-            if (movies.size >= rowIndex * 2 + 2) {
+
+
+    @Composable
+    fun MovieListRow(
+        rowIndex: Int,
+        movies: List<Result>,
+        navController: NavController
+    ) {
+        Column {
+            Row {
                 MovieListCard_2(
-                    movieItem = movies[rowIndex * 2 + 1],
+                    movieItem = movies[rowIndex * 2],
                     navController = navController,
                     modifier = Modifier.weight(1f)
                 )
-            } else {
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.width(16.dp))
+                if (movies.size >= rowIndex * 2 + 2) {
+                    MovieListCard_2(
+                        movieItem = movies[rowIndex * 2 + 1],
+                        navController = navController,
+                        modifier = Modifier.weight(1f)
+                    )
+                } else {
+                    Spacer(modifier = Modifier.weight(1f))
+                }
             }
+            Spacer(modifier = Modifier.height(16.dp))
         }
-        Spacer(modifier = Modifier.height(16.dp))
     }
 }
