@@ -64,12 +64,16 @@ class MainActivity : ComponentActivity() {
             MovieListAppTheme {
                 val navController = rememberNavController()
 
+                val forYouViewModel: ForYouViewModel = viewModel() // Provide the actual instance of ForYouViewModel
+
                 NavHost(navController = navController, startDestination = "home_screen") {
                     composable("home_screen") {
-                        HomeScreen(navController)
+                        HomeScreen(navController = navController, viewModel = forYouViewModel)
                     }
 
-                    composable(
+
+
+                composable(
                         "movie_details_screen/{movieId}",
                         arguments = listOf(
                             navArgument("movieId") {
