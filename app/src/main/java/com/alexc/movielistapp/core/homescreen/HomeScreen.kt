@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -31,6 +32,7 @@ fun HomeScreen(navController: NavController, viewModel: ForYouViewModel) {
         modifier = Modifier
             .fillMaxSize()
     ) {
+        val context = LocalContext.current
         LazyColumn {
             item {
                 Spacer(modifier = Modifier.height(20.dp))
@@ -42,7 +44,7 @@ fun HomeScreen(navController: NavController, viewModel: ForYouViewModel) {
                 Spacer(modifier = Modifier.height(30.dp))
             }
             item {
-                RecommendedMovieWidget(navController, viewModel)
+                RecommendedMovieWidget(navController = navController, viewModel = viewModel, context = context)
             }
             item {
                 MostPopularMoviesWidget(navController)
