@@ -70,77 +70,91 @@ import com.google.accompanist.coil.rememberCoilPainter
 import kotlinx.coroutines.*
 import java.io.IOException
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @OptIn(DelicateCoroutinesApi::class)
-
 @Composable
 fun ForYouScreen(
     navController: NavController,
-    viewModel:ForYouViewModel = hiltViewModel(),
-    viewModel1:FavoritesViewModel= hiltViewModel(),
-    context : Context
+    viewModel: ForYouViewModel = hiltViewModel(),
+    viewModel1: FavoritesViewModel = hiltViewModel(),
+    context: Context
 ) {
     val prefs = PRefs(context)
     val favoritelist = viewModel1.favoriteMovies.value
     val stringlist: MutableList<String> = arrayListOf()
-    val movieList: MutableList<Result>?
+    var movieList: MutableList<Result>?
 
-    for (i in favoritelist!!) {
-        stringlist.add(i.title)
+    favoritelist?.forEach { movie ->
+        stringlist.add(movie.title)
     }
-    if (prefs.favouritesChange == 1) {
-        val movieList1 =
-            produceState<Resource<MutableList<Result>>>(initialValue = Resource.Loading()) {
-                value = viewModel.runLoop(stringlist)
-            }.value
-        movieList = movieList1.data
 
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
+    val refreshTrigger = viewModel1.favoriteMovies // Observe this to trigger refresh
+    val recommendedMovies = viewModel.recommendedMovies.value
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "ForYouScreen",
+                        fontFamily = OpenSans,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.primary
+                    )
+                },
+                backgroundColor = MaterialTheme.colors.surface,
+            )
+        },
+        bottomBar = {
+            BottomBar(navController)
+        },
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
         ) {
-            if (movieList1 is Resource.Loading) {
-                CircularProgressIndicator(color = MaterialTheme.colors.primary)
+            if (prefs.favouritesChange == 1) {
+                val movieList1 =
+                    produceState<Resource<MutableList<Result>>>(initialValue = Resource.Loading()) {
+                        value = viewModel.runLoop(stringlist)
+                    }.value
+                movieList = movieList1.data
 
-            } else if (movieList1 is Resource.Error) {
-                Log.d("er", "Error")
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    if (movieList1 is Resource.Loading) {
+                        CircularProgressIndicator(color = MaterialTheme.colors.primary)
+                    } else if (movieList1 is Resource.Error) {
+                        Log.d("er", "Error")
+                    }
+                }
+
+        } else {
+                movieList = recommendedMovies!!.toMutableList()
+                if (movieList.isNullOrEmpty()) {
+                    Text(text = "No movies in list now")
+                } else {
+                    LazyColumn(contentPadding = PaddingValues(16.dp)) {
+                        val itemCount = if (movieList!!.size % 2 == 0) {
+                            movieList!!.size / 2
+                        } else {
+                            movieList!!.size / 2 + 1
+                        }
+                        items(itemCount) {
+                            MovieListRow(
+                                rowIndex = it,
+                                movies = movieList!!,
+                                navController = navController
+                            )
+                        }
+                    }
+                }
             }
         }
-
     }
-
-    else{
-                    movieList = viewModel.recommendedMovies.value as? MutableList<Result>?
-        Box(
-            contentAlignment = Alignment.Center,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            if (movieList.isNullOrEmpty()) {
-                Text(text = "No movies in list now")
-            } else {
-                // Render the movie list
-            }
-        }
-    }
-
-
-
-
-
-
-    LazyColumn(contentPadding = PaddingValues(16.dp)) {
-
-        if (!movieList.isNullOrEmpty()) {
-            val itemCount = if (movieList!!.size % 2 == 0) {
-                movieList!!.size / 2
-            } else {
-                movieList!!.size / 2 + 1
-            }
-            items(itemCount) {
-                MovieListRow(rowIndex = it, movies = movieList, navController = navController)
-            }
-        }
-        }
-
 
 
 

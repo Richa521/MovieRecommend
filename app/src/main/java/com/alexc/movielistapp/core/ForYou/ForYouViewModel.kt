@@ -59,8 +59,12 @@ class ForYouViewModel @Inject constructor(
 
        return     Resource.Success(response)
 
+
+        _recommendedMovies.value = emptyList()
+        _recommendedMovies.value = response
+
         Log.d("Anike",rec_list_id.toString())
-       // rec_list_id1.addAll(rec_list_id)
+
     }
 suspend fun research(list12: List<String>):MutableList<Result>
 {
@@ -80,15 +84,21 @@ suspend fun research(list12: List<String>):MutableList<Result>
             addToRecommendations(movie)
         }
         prefs.favouritesChange=0
+
+        _recommendedMovies.value = rec_list_id
     }
     return rec_list_id
+
+
 }
 
     fun addToRecommendations(movie: Result) {
         val updatedRecommends = (_recommendedMovies.value ?: emptyList()) + movie
-        _recommendedMovies.value = updatedRecommends
-        preferenceHelper.saveRecommendations(updatedRecommends)
+        _recommendedMovies.value = updatedRecommends.take(5)
+        preferenceHelper.saveRecommendations(updatedRecommends.take(5))
     }
+
+
 //    fun onSearchBackend(searchString: String) {
 //        state = state.copy(searchTerm = searchString)
 //        searchJob = viewModelScope.launch {
