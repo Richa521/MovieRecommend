@@ -2,6 +2,8 @@ package com.alexc.movielistapp.core.moviedetails
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+
+
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
@@ -17,8 +19,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,21 +52,40 @@ fun MovieDetailsScreen(
         value = viewModel.loadMovie(movieId)
     }.value
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        MovieDetailStateWrapper(
-            navController = navController,
-            movieItem = movieInfo,
-            viewModel=viewModel,
-            favoritesViewModel = favoritesViewModel,
-            watchlistViewModel = watchlistViewModel,
-            loadingModifier = Modifier.align(Alignment.Center)
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(Color.Black)
+    ) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+        ) {
+            MovieDetailStateWrapper(
+                navController = navController,
+                movieItem = movieInfo,
+                viewModel = viewModel,
+                favoritesViewModel = favoritesViewModel,
+                watchlistViewModel = watchlistViewModel,
+                loadingModifier = Modifier.align(Alignment.Center)
+            )
+        }
+
+        // Add the "Movie information provided by TMDB" text at the bottom
+        Text(
+            text = "Movie information provided by TMDB",
+            color = Color.Gray,
+            fontSize = 12.sp,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+                .background(Color.Black)
         )
-
     }
-
-
 }
-
 
 @Composable
 fun MovieDetail(
