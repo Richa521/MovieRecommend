@@ -78,35 +78,6 @@ class PreferencesHelper(context: Context) {
             emptyList()
         }
     }
-    fun saveSavedMovieIds(savedMovieIds: List<String>) {
-        val gson = Gson()
-        val jsonSavedMovieIds = gson.toJson(savedMovieIds)
-        preferences.edit().putString("savedMovieIds", jsonSavedMovieIds).apply()
-    }
 
-    fun getSavedMovieIds(): List<String> {
-        val gson = Gson()
-        val jsonSavedMovieIds = preferences.getString("savedMovieIds", null)
-        return if (jsonSavedMovieIds != null) {
-            gson.fromJson(jsonSavedMovieIds, Array<String>::class.java).toList()
-        } else {
-            emptyList()
-        }
-    }
 
-    fun saveNearestMatchMovies(movies: List<MovieItem>) {
-        val gson = Gson()
-        val jsonMovies = gson.toJson(movies)
-        preferences.edit().putString("nearestMatchMovies", jsonMovies).apply()
-    }
-
-    fun getNearestMatchMovies(): List<MovieItem> {
-        val gson = Gson()
-        val jsonMovies = preferences.getString("nearestMatchMovies", null)
-        return if (jsonMovies != null) {
-            gson.fromJson(jsonMovies, Array<MovieItem>::class.java).toList()
-        } else {
-            emptyList()
-        }
-    }
 }

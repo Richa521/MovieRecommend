@@ -88,7 +88,7 @@ fun ForYouScreen(
         stringlist.add(movie.title)
     }
 
-    val refreshTrigger = viewModel1.favoriteMovies // Observe this to trigger refresh
+    val refreshTrigger = viewModel1.favoriteMovies
     val recommendedMovies = viewModel.recommendedMovies.value
 
     Scaffold(

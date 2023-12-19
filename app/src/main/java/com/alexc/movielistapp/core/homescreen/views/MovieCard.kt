@@ -34,7 +34,7 @@ fun MovieCard(
             }
             .padding(10.dp),
     ) {
-        // Get the correct image url
+
         val poster="https://image.tmdb.org/t/p/original"+movie.poster_path
         val imageSplitUrl =poster.split(".", limit = 4)
         val imageUrl = poster.replace(imageSplitUrl[imageSplitUrl.size-1],"") + ".jpg"
